@@ -81,4 +81,24 @@ describe('SignUp Controller', () => {
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new MissingParamError('passwordConfirmation'));
   });
+
+  test('Should return 400 if cpf is not provided', () => {
+    const sut = new SignUpController();
+    const httpRequest = {
+      body: {
+        email: 'any_email@email.com',
+        name: 'any_name',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+        rg: 'any_rg',
+        birthdate: 'any_brithdate',
+        cellphone: 'any_cellphone',
+      },
+    };
+
+    const httpResponse = sut.handle(httpRequest);
+
+    expect(httpResponse.statusCode).toBe(400);
+    expect(httpResponse.body).toEqual(new MissingParamError('cpf'));
+  });
 });
