@@ -1,9 +1,11 @@
 import { SignUpController } from './signup';
 import { MissingParamError } from '../errors/missing-param-error';
 
+const makeSut = () => new SignUpController();
+
 describe('SignUp Controller', () => {
   test('Should return 400 if name is not provided', () => {
-    const sut = new SignUpController();
+    const sut = makeSut();
     const httpRequest = {
       body: {
         email: 'any_email@email.com',
@@ -23,7 +25,7 @@ describe('SignUp Controller', () => {
   });
 
   test('Should return 400 if email is not provided', () => {
-    const sut = new SignUpController();
+    const sut = makeSut();
     const httpRequest = {
       body: {
         name: 'any_name',
@@ -43,7 +45,7 @@ describe('SignUp Controller', () => {
   });
 
   test('Should return 400 if password is not provided', () => {
-    const sut = new SignUpController();
+    const sut = makeSut();
     const httpRequest = {
       body: {
         email: 'any_email@email.com',
@@ -63,7 +65,7 @@ describe('SignUp Controller', () => {
   });
 
   test('Should return 400 if passwordConfirmation is not provided', () => {
-    const sut = new SignUpController();
+    const sut = makeSut();
     const httpRequest = {
       body: {
         email: 'any_email@email.com',
@@ -83,7 +85,7 @@ describe('SignUp Controller', () => {
   });
 
   test('Should return 400 if cpf is not provided', () => {
-    const sut = new SignUpController();
+    const sut = makeSut();
     const httpRequest = {
       body: {
         email: 'any_email@email.com',
@@ -103,7 +105,7 @@ describe('SignUp Controller', () => {
   });
 
   test('Should return 400 if rg is not provided', () => {
-    const sut = new SignUpController();
+    const sut = makeSut();
     const httpRequest = {
       body: {
         email: 'any_email@email.com',
@@ -123,7 +125,7 @@ describe('SignUp Controller', () => {
   });
 
   test('Should return 400 if birthdate is not provided', () => {
-    const sut = new SignUpController();
+    const sut = makeSut();
     const httpRequest = {
       body: {
         email: 'any_email@email.com',
@@ -143,7 +145,7 @@ describe('SignUp Controller', () => {
   });
 
   test('Should return 400 if cellphone is not provided', () => {
-    const sut = new SignUpController();
+    const sut = makeSut();
     const httpRequest = {
       body: {
         email: 'any_email@email.com',
