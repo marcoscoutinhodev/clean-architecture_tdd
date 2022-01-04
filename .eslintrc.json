@@ -18,6 +18,7 @@
         "import/prefer-default-export": "off",
         "class-methods-use-this": "off",
         "no-restricted-syntax": "off",
-        "@typescript-eslint/no-unused-vars": "warn"
+        "max-classes-per-file": "off",
+        "@typescript-eslint/no-unused-vars": "off"
     }
 }
