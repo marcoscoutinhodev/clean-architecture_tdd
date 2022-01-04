@@ -121,4 +121,24 @@ describe('SignUp Controller', () => {
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new MissingParamError('rg'));
   });
+
+  test('Should return 400 if birthdate is not provided', () => {
+    const sut = new SignUpController();
+    const httpRequest = {
+      body: {
+        email: 'any_email@email.com',
+        name: 'any_name',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+        cpf: 'any_cpf',
+        rg: 'any_rg',
+        cellphone: 'any_cellphone',
+      },
+    };
+
+    const httpResponse = sut.handle(httpRequest);
+
+    expect(httpResponse.statusCode).toBe(400);
+    expect(httpResponse.body).toEqual(new MissingParamError('birthdate'));
+  });
 });
