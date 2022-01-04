@@ -1,0 +1,9 @@
+{
+  "name": "clean-architecture_tdd",
+  "version": "1.0.0",
+  "description": "NodeJs API Course - TypeScript Clean Architecture TDD Docker GraphQL",
+  "main": "server.ts",
+  "author": "Marcos Vinicius Coutinho",
+  "license": "MIT",
+  "private": true
+}
