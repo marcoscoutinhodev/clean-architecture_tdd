@@ -10,6 +10,7 @@ export class SignUpController implements Controller {
       'email',
       'password',
       'passwordConfirmation',
+      'cpf',
     ];
 
     for (const field of requiredFields) {
