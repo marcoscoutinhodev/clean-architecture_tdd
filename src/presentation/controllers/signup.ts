@@ -13,6 +13,7 @@ export class SignUpController implements Controller {
       'cpf',
       'rg',
       'birthdate',
+      'cellphone',
     ];
 
     for (const field of requiredFields) {
