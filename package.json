@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "jest",
+    "test": "jest --watch --passWithNoTests",
     "test:staged": "jest --passWithNoTests",
     "pre-commit": "eslint --fix && yarn test:staged && git add"
   },
