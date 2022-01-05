@@ -318,4 +318,27 @@ describe('SignUp Controller', () => {
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new InvalidParamError('cpf'));
   });
+
+  test('Should call CpfValidator with correct cpf', () => {
+    const { sut, cpfValidatorStub } = makeSut();
+
+    const isValidSpy = jest.spyOn(cpfValidatorStub, 'isValid');
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+        cpf: 'any_cpf',
+        birthdate: 'any_brithdate',
+        rg: 'any_rg',
+        cellphone: 'any_cellphone',
+      },
+    };
+
+    sut.handle(httpRequest);
+
+    expect(isValidSpy).toHaveBeenCalledWith('any_cpf');
+  });
 });
