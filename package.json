@@ -7,11 +7,12 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "jest --watch --passWithNoTests --runInBand --silent --verbose",
-    "test:staged": "jest --passWithNoTests --colors",
-    "test:ci": "jest --coverage --silent --verbose --colors",
-    "pre-commit": "eslint --fix && yarn test:staged && git add",
-    "pre-push": "yarn test:ci"
+    "test": "jest --passWithNoTests --runInBand --silent --colors",
+    "test:verbose": "jest --passWithNoTests",
+    "test:unit": "yarn test --watch --noStackTrace -c jest-unit-config.js",
+    "test:integration": "yarn test --watch --noStackTrace -c jest-integration-config.js",
+    "pre-commit": "eslint --fix && yarn test --verbose && git add",
+    "pre-push": "yarn test --coverage"
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
