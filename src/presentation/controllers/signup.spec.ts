@@ -64,7 +64,7 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password',
         cpf: 'any_cpf',
         rg: 'any_rg',
-        birthdate: 'any_brithdate',
+        birthdate: 'any_birthdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -84,7 +84,7 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password',
         cpf: 'any_cpf',
         rg: 'any_rg',
-        birthdate: 'any_brithdate',
+        birthdate: 'any_birthdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -104,7 +104,7 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password',
         cpf: 'any_cpf',
         rg: 'any_rg',
-        birthdate: 'any_brithdate',
+        birthdate: 'any_birthdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -124,7 +124,7 @@ describe('SignUp Controller', () => {
         password: 'any_password',
         cpf: 'any_cpf',
         rg: 'any_rg',
-        birthdate: 'any_brithdate',
+        birthdate: 'any_birthdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -145,7 +145,7 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'invalid_password',
         cpf: 'any_cpf',
         rg: 'any_rg',
-        birthdate: 'any_brithdate',
+        birthdate: 'any_birthdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -165,7 +165,7 @@ describe('SignUp Controller', () => {
         password: 'any_password',
         passwordConfirmation: 'any_password',
         rg: 'any_rg',
-        birthdate: 'any_brithdate',
+        birthdate: 'any_birthdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -185,7 +185,7 @@ describe('SignUp Controller', () => {
         password: 'any_password',
         passwordConfirmation: 'any_password',
         cpf: 'any_cpf',
-        birthdate: 'any_brithdate',
+        birthdate: 'any_birthdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -226,7 +226,7 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password',
         cpf: 'any_cpf',
         rg: 'any_rg',
-        birthdate: 'any_brithdate',
+        birthdate: 'any_birthdate',
       },
     };
 
@@ -249,7 +249,7 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password',
         cpf: 'any_cpf',
         rg: 'any_rg',
-        birthdate: 'any_brithdate',
+        birthdate: 'any_birthdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -273,7 +273,7 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password',
         cpf: 'any_cpf',
         rg: 'any_rg',
-        birthdate: 'any_brithdate',
+        birthdate: 'any_birthdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -298,7 +298,7 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password',
         cpf: 'any_cpf',
         rg: 'any_rg',
-        birthdate: 'any_brithdate',
+        birthdate: 'any_birthdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -322,7 +322,7 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password',
         cpf: 'invalid_cpf',
         rg: 'any_rg',
-        birthdate: 'any_brithdate',
+        birthdate: 'any_birthdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -346,7 +346,7 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password',
         cpf: 'any_cpf',
         rg: 'any_rg',
-        birthdate: 'any_brithdate',
+        birthdate: 'any_birthdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -371,7 +371,7 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password',
         cpf: 'any_cpf',
         rg: 'any_rg',
-        birthdate: 'any_brithdate',
+        birthdate: 'any_birthdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -395,7 +395,7 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password',
         cpf: 'any_cpf',
         rg: 'any_rg',
-        birthdate: 'any_brithdate',
+        birthdate: 'any_birthdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -404,5 +404,28 @@ describe('SignUp Controller', () => {
 
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new InvalidParamError('birthdate'));
+  });
+
+  test('Should call DateValidator with correct birthdate', () => {
+    const { sut, dateValidatorStub } = makeSut();
+
+    const isValidSpy = jest.spyOn(dateValidatorStub, 'isValid');
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+        cpf: 'any_cpf',
+        rg: 'any_rg',
+        birthdate: 'any_birthdate',
+        cellphone: 'any_cellphone',
+      },
+    };
+
+    sut.handle(httpRequest);
+
+    expect(isValidSpy).toHaveBeenCalledWith('any_birthdate');
   });
 });
