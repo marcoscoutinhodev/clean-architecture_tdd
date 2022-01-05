@@ -1,12 +1,23 @@
 import { SignUpController } from './signup';
-import { EmailValidator, CpfValidator } from '../protocols';
+import { EmailValidator, CpfValidator, DateValidator } from '../protocols';
 import { MissingParamError, InvalidParamError, ServerError } from '../errors';
 
 interface SutTypes {
   sut: SignUpController,
   emailValidatorStub: EmailValidator,
   cpfValidatorStub: CpfValidator,
+  dateValidatorStub: DateValidator,
 }
+
+const makeDateValidator = () => {
+  class DateValidatorStub implements DateValidator {
+    isValid(date: string): boolean {
+      return true;
+    }
+  }
+
+  return new DateValidatorStub();
+};
 
 const makeCpfValidator = () => {
   class CpfValidatorStub implements CpfValidator {
@@ -29,14 +40,17 @@ const makeEmailValidator = () => {
 };
 
 const makeSut = (): SutTypes => {
-  const cpfValidatorStub = makeCpfValidator();
   const emailValidatorStub = makeEmailValidator();
-  const sut = new SignUpController(emailValidatorStub, cpfValidatorStub);
+  const cpfValidatorStub = makeCpfValidator();
+  const dateValidatorStub = makeDateValidator();
+
+  const sut = new SignUpController(emailValidatorStub, cpfValidatorStub, dateValidatorStub);
 
   return {
     sut,
     emailValidatorStub,
     cpfValidatorStub,
+    dateValidatorStub,
   };
 };
 
@@ -366,5 +380,29 @@ describe('SignUp Controller', () => {
 
     expect(httpResponse.statusCode).toBe(500);
     expect(httpResponse.body).toEqual(new ServerError());
+  });
+
+  test('Should return 400 if birthdate provided is invalid', () => {
+    const { sut, dateValidatorStub } = makeSut();
+
+    jest.spyOn(dateValidatorStub, 'isValid').mockReturnValueOnce(false);
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+        cpf: 'any_cpf',
+        rg: 'any_rg',
+        birthdate: 'any_brithdate',
+        cellphone: 'any_cellphone',
+      },
+    };
+
+    const httpResponse = sut.handle(httpRequest);
+
+    expect(httpResponse.statusCode).toBe(400);
+    expect(httpResponse.body).toEqual(new InvalidParamError('birthdate'));
   });
 });
