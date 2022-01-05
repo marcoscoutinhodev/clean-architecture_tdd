@@ -1,11 +1,22 @@
 import { SignUpController } from './signup';
-import { EmailValidator } from '../protocols';
+import { EmailValidator, CpfValidator } from '../protocols';
 import { MissingParamError, InvalidParamError, ServerError } from '../errors';
 
 interface SutTypes {
   sut: SignUpController,
-  emailValidatorStub: EmailValidator
+  emailValidatorStub: EmailValidator,
+  cpfValidatorStub: CpfValidator,
 }
+
+const makeCpfValidator = () => {
+  class CpfValidatorStub implements CpfValidator {
+    isValid(cpf: string) {
+      return true;
+    }
+  }
+
+  return new CpfValidatorStub();
+};
 
 const makeEmailValidator = () => {
   class EmailValidatorStub implements EmailValidator {
@@ -18,12 +29,14 @@ const makeEmailValidator = () => {
 };
 
 const makeSut = (): SutTypes => {
+  const cpfValidatorStub = makeCpfValidator();
   const emailValidatorStub = makeEmailValidator();
-  const sut = new SignUpController(emailValidatorStub);
+  const sut = new SignUpController(emailValidatorStub, cpfValidatorStub);
 
   return {
     sut,
     emailValidatorStub,
+    cpfValidatorStub,
   };
 };
 
@@ -280,5 +293,29 @@ describe('SignUp Controller', () => {
 
     expect(httpResponse.statusCode).toBe(500);
     expect(httpResponse.body).toEqual(new ServerError());
+  });
+
+  test('Should return 400 if cpf provided is invalid', () => {
+    const { sut, cpfValidatorStub } = makeSut();
+
+    jest.spyOn(cpfValidatorStub, 'isValid').mockReturnValueOnce(false);
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+        cpf: 'invalid_cpf',
+        birthdate: 'any_brithdate',
+        rg: 'any_rg',
+        cellphone: 'any_cellphone',
+      },
+    };
+
+    const httpResponse = sut.handle(httpRequest);
+
+    expect(httpResponse.statusCode).toBe(400);
+    expect(httpResponse.body).toEqual(new InvalidParamError('cpf'));
   });
 });
