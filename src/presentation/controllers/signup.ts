@@ -1,5 +1,5 @@
 import {
-  HttpRequest, HttpResponse, Controller, EmailValidator,
+  HttpRequest, HttpResponse, Controller, EmailValidator, CpfValidator,
 } from '../protocols';
 import { badRequest, serverError } from '../helpers/http-helper';
 import { MissingParamError, InvalidParamError } from '../errors';
@@ -7,8 +7,11 @@ import { MissingParamError, InvalidParamError } from '../errors';
 export class SignUpController implements Controller {
   private readonly emailValidator: EmailValidator;
 
-  constructor(emailValidator: EmailValidator) {
+  private readonly cpfValidator: CpfValidator;
+
+  constructor(emailValidator: EmailValidator, cpfValidator: CpfValidator) {
     this.emailValidator = emailValidator;
+    this.cpfValidator = cpfValidator;
   }
 
   handle(httpRequest: HttpRequest): HttpResponse {
@@ -30,16 +33,24 @@ export class SignUpController implements Controller {
         }
       }
 
-      const { email, password, passwordConfirmation } = httpRequest.body;
+      const {
+        email, password, passwordConfirmation, cpf,
+      } = httpRequest.body;
+
+      const isEmailValid = this.emailValidator.isValid(email);
+
+      if (!isEmailValid) {
+        return badRequest(new InvalidParamError('email'));
+      }
 
       if (password !== passwordConfirmation) {
         return badRequest(new InvalidParamError('password confirmation'));
       }
 
-      const isValid = this.emailValidator.isValid(email);
+      const isCpfValid = this.cpfValidator.isValid(cpf);
 
-      if (!isValid) {
-        return badRequest(new InvalidParamError('email'));
+      if (!isCpfValid) {
+        return badRequest(new InvalidParamError('cpf'));
       }
 
       return {
