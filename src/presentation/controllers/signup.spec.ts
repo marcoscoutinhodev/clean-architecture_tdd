@@ -1,5 +1,7 @@
 import { SignUpController } from './signup';
-import { EmailValidator, CpfValidator, DateValidator } from '../protocols';
+import {
+  EmailValidator, CpfValidator, DateValidator, CellphoneValidator,
+} from '../protocols';
 import { MissingParamError, InvalidParamError, ServerError } from '../errors';
 
 interface SutTypes {
@@ -7,7 +9,18 @@ interface SutTypes {
   emailValidatorStub: EmailValidator,
   cpfValidatorStub: CpfValidator,
   dateValidatorStub: DateValidator,
+  cellphoneValidatorStub: CellphoneValidator
 }
+
+const makeCellphoneValidator = () => {
+  class CellphoneValidatorStub implements CellphoneValidator {
+    isValid(cellphone: string): boolean {
+      return true;
+    }
+  }
+
+  return new CellphoneValidatorStub();
+};
 
 const makeDateValidator = () => {
   class DateValidatorStub implements DateValidator {
@@ -43,14 +56,16 @@ const makeSut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidator();
   const cpfValidatorStub = makeCpfValidator();
   const dateValidatorStub = makeDateValidator();
+  const cellphoneValidatorStub = makeCellphoneValidator();
 
-  const sut = new SignUpController(emailValidatorStub, cpfValidatorStub, dateValidatorStub);
+  const sut = new SignUpController(emailValidatorStub, cpfValidatorStub, dateValidatorStub, cellphoneValidatorStub);
 
   return {
     sut,
     emailValidatorStub,
     cpfValidatorStub,
     dateValidatorStub,
+    cellphoneValidatorStub,
   };
 };
 
@@ -453,5 +468,29 @@ describe('SignUp Controller', () => {
 
     expect(httpResponse.statusCode).toBe(500);
     expect(httpResponse.body).toEqual(new ServerError());
+  });
+
+  test('Should return 400 if cellphone provided is invalid', () => {
+    const { sut, cellphoneValidatorStub } = makeSut();
+
+    jest.spyOn(cellphoneValidatorStub, 'isValid').mockReturnValueOnce(false);
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+        cpf: 'any_cpf',
+        rg: 'any_rg',
+        birthdate: 'any_brithdate',
+        cellphone: 'any_cellphone',
+      },
+    };
+
+    const httpResponse = sut.handle(httpRequest);
+
+    expect(httpResponse.statusCode).toBe(400);
+    expect(httpResponse.body).toEqual(new InvalidParamError('cellphone'));
   });
 });
