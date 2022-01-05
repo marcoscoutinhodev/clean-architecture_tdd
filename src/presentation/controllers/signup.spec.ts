@@ -493,4 +493,27 @@ describe('SignUp Controller', () => {
     expect(httpResponse.statusCode).toBe(400);
     expect(httpResponse.body).toEqual(new InvalidParamError('cellphone'));
   });
+
+  test('Should call CellphoneValidator with correct cellphone', () => {
+    const { sut, cellphoneValidatorStub } = makeSut();
+
+    const isValidSpy = jest.spyOn(cellphoneValidatorStub, 'isValid');
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+        cpf: 'any_cpf',
+        rg: 'any_rg',
+        birthdate: 'any_brithdate',
+        cellphone: 'any_cellphone',
+      },
+    };
+
+    sut.handle(httpRequest);
+
+    expect(isValidSpy).toHaveBeenCalledWith('any_cellphone');
+  });
 });
