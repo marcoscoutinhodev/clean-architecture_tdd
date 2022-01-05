@@ -1,5 +1,5 @@
 import {
-  HttpRequest, HttpResponse, Controller, EmailValidator, CpfValidator, DateValidator,
+  HttpRequest, HttpResponse, Controller, EmailValidator, CpfValidator, DateValidator, CellphoneValidator,
 } from '../protocols';
 import { badRequest, serverError } from '../helpers/http-helper';
 import { MissingParamError, InvalidParamError } from '../errors';
@@ -11,10 +11,13 @@ export class SignUpController implements Controller {
 
   private readonly dateValidator: DateValidator;
 
-  constructor(emailValidator: EmailValidator, cpfValidator: CpfValidator, dateValidator: DateValidator) {
+  private readonly cellphoneValidator: CellphoneValidator;
+
+  constructor(emailValidator: EmailValidator, cpfValidator: CpfValidator, dateValidator: DateValidator, cellphoneValidator: CellphoneValidator) {
     this.emailValidator = emailValidator;
     this.cpfValidator = cpfValidator;
     this.dateValidator = dateValidator;
+    this.cellphoneValidator = cellphoneValidator;
   }
 
   handle(httpRequest: HttpRequest): HttpResponse {
@@ -37,7 +40,7 @@ export class SignUpController implements Controller {
       }
 
       const {
-        email, password, passwordConfirmation, cpf, birthdate,
+        email, password, passwordConfirmation, cpf, birthdate, cellphone,
       } = httpRequest.body;
 
       const isEmailValid = this.emailValidator.isValid(email);
@@ -60,6 +63,12 @@ export class SignUpController implements Controller {
 
       if (!isBirthDateValid) {
         return badRequest(new InvalidParamError('birthdate'));
+      }
+
+      const isCellphoneValid = this.cellphoneValidator.isValid(cellphone);
+
+      if (!isCellphoneValid) {
+        return badRequest(new InvalidParamError('cellphone'));
       }
 
       return {
