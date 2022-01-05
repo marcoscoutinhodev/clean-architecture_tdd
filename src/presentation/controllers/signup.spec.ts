@@ -234,8 +234,8 @@ describe('SignUp Controller', () => {
         password: 'any_password',
         passwordConfirmation: 'any_password',
         cpf: 'any_cpf',
-        birthdate: 'any_brithdate',
         rg: 'any_rg',
+        birthdate: 'any_brithdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -258,8 +258,8 @@ describe('SignUp Controller', () => {
         password: 'any_password',
         passwordConfirmation: 'any_password',
         cpf: 'any_cpf',
-        birthdate: 'any_brithdate',
         rg: 'any_rg',
+        birthdate: 'any_brithdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -283,8 +283,8 @@ describe('SignUp Controller', () => {
         password: 'any_password',
         passwordConfirmation: 'any_password',
         cpf: 'any_cpf',
-        birthdate: 'any_brithdate',
         rg: 'any_rg',
+        birthdate: 'any_brithdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -307,8 +307,8 @@ describe('SignUp Controller', () => {
         password: 'any_password',
         passwordConfirmation: 'any_password',
         cpf: 'invalid_cpf',
-        birthdate: 'any_brithdate',
         rg: 'any_rg',
+        birthdate: 'any_brithdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -331,8 +331,8 @@ describe('SignUp Controller', () => {
         password: 'any_password',
         passwordConfirmation: 'any_password',
         cpf: 'any_cpf',
-        birthdate: 'any_brithdate',
         rg: 'any_rg',
+        birthdate: 'any_brithdate',
         cellphone: 'any_cellphone',
       },
     };
@@ -356,8 +356,8 @@ describe('SignUp Controller', () => {
         password: 'any_password',
         passwordConfirmation: 'any_password',
         cpf: 'any_cpf',
-        birthdate: 'any_brithdate',
         rg: 'any_rg',
+        birthdate: 'any_brithdate',
         cellphone: 'any_cellphone',
       },
     };
