@@ -8,8 +8,8 @@
   "private": true,
   "scripts": {
     "test": "jest --watch --passWithNoTests --runInBand --silent --verbose",
-    "test:staged": "jest --passWithNoTests",
-    "test:ci": "jest --coverage --silent --verbose",
+    "test:staged": "jest --passWithNoTests --colors",
+    "test:ci": "jest --coverage --silent --verbose --colors",
     "pre-commit": "eslint --fix && yarn test:staged && git add",
     "pre-push": "yarn test:ci"
   },
