@@ -7,9 +7,11 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "test": "jest --watch --passWithNoTests",
+    "test": "jest --watch --passWithNoTests --runInBand --silent --verbose",
     "test:staged": "jest --passWithNoTests",
-    "pre-commit": "eslint --fix && yarn test:staged && git add"
+    "test:ci": "jest --coverage --silent --verbose",
+    "pre-commit": "eslint --fix && yarn test:staged && git add",
+    "pre-push": "yarn test:ci"
   },
   "devDependencies": {
     "@types/jest": "^27.4.0",
