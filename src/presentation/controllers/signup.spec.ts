@@ -1,18 +1,34 @@
+import exp from 'constants';
 import { SignUpController } from './signup';
 import {
   EmailValidator, CpfValidator, DateValidator, CellphoneValidator,
 } from '../protocols';
 import { MissingParamError, InvalidParamError, ServerError } from '../errors';
+import { AccountModel } from '../../domain/models/account';
+import { AddAccount, AddAccountModel } from '../../domain/usecases/add-account';
 
-interface SutTypes {
-  sut: SignUpController,
-  emailValidatorStub: EmailValidator,
-  cpfValidatorStub: CpfValidator,
-  dateValidatorStub: DateValidator,
-  cellphoneValidatorStub: CellphoneValidator
-}
+const makeAddAccount = (): AddAccount => {
+  class AddAccountStub implements AddAccount {
+    add(account: AddAccountModel): AccountModel {
+      const fakeAccount = {
+        id: 'valid_id',
+        name: 'valid_name',
+        email: 'valid_email@email.com',
+        password: 'valid_password',
+        cpf: 'valid_cpf',
+        rg: 'valid_rg',
+        birthdate: 'valid_birthdate',
+        cellphone: 'valid_cellphone',
+      };
 
-const makeCellphoneValidator = () => {
+      return fakeAccount;
+    }
+  }
+
+  return new AddAccountStub();
+};
+
+const makeCellphoneValidator = (): CellphoneValidator => {
   class CellphoneValidatorStub implements CellphoneValidator {
     isValid(cellphone: string): boolean {
       return true;
@@ -22,7 +38,7 @@ const makeCellphoneValidator = () => {
   return new CellphoneValidatorStub();
 };
 
-const makeDateValidator = () => {
+const makeDateValidator = (): DateValidator => {
   class DateValidatorStub implements DateValidator {
     isValid(date: string): boolean {
       return true;
@@ -32,7 +48,7 @@ const makeDateValidator = () => {
   return new DateValidatorStub();
 };
 
-const makeCpfValidator = () => {
+const makeCpfValidator = (): CpfValidator => {
   class CpfValidatorStub implements CpfValidator {
     isValid(cpf: string) {
       return true;
@@ -42,7 +58,7 @@ const makeCpfValidator = () => {
   return new CpfValidatorStub();
 };
 
-const makeEmailValidator = () => {
+const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
     isValid(email: string): boolean {
       return true;
@@ -52,13 +68,23 @@ const makeEmailValidator = () => {
   return new EmailValidatorStub();
 };
 
+interface SutTypes {
+  sut: SignUpController,
+  emailValidatorStub: EmailValidator,
+  cpfValidatorStub: CpfValidator,
+  dateValidatorStub: DateValidator,
+  cellphoneValidatorStub: CellphoneValidator,
+  addAccountStub: AddAccount,
+}
+
 const makeSut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidator();
   const cpfValidatorStub = makeCpfValidator();
   const dateValidatorStub = makeDateValidator();
   const cellphoneValidatorStub = makeCellphoneValidator();
+  const addAccountStub = makeAddAccount();
 
-  const sut = new SignUpController(emailValidatorStub, cpfValidatorStub, dateValidatorStub, cellphoneValidatorStub);
+  const sut = new SignUpController(emailValidatorStub, cpfValidatorStub, dateValidatorStub, cellphoneValidatorStub, addAccountStub);
 
   return {
     sut,
@@ -66,6 +92,7 @@ const makeSut = (): SutTypes => {
     cpfValidatorStub,
     dateValidatorStub,
     cellphoneValidatorStub,
+    addAccountStub,
   };
 };
 
@@ -541,5 +568,36 @@ describe('SignUp Controller', () => {
 
     expect(httpResponse.statusCode).toBe(500);
     expect(httpResponse.body).toEqual(new ServerError());
+  });
+
+  test('Should call AddAccount with correct value', () => {
+    const { sut, addAccountStub } = makeSut();
+
+    const addAccountSpy = jest.spyOn(addAccountStub, 'add');
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        email: 'any_email@email.com',
+        password: 'any_password',
+        passwordConfirmation: 'any_password',
+        cpf: 'any_cpf',
+        rg: 'any_rg',
+        birthdate: 'any_brithdate',
+        cellphone: 'any_cellphone',
+      },
+    };
+
+    sut.handle(httpRequest);
+
+    expect(addAccountSpy).toHaveBeenCalledWith({
+      name: 'any_name',
+      email: 'any_email@email.com',
+      password: 'any_password',
+      cpf: 'any_cpf',
+      rg: 'any_rg',
+      birthdate: 'any_brithdate',
+      cellphone: 'any_cellphone',
+    });
   });
 });
