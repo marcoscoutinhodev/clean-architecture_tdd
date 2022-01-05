@@ -3,21 +3,21 @@ import {
 } from '../protocols';
 import { badRequest, serverError } from '../helpers/http-helper';
 import { MissingParamError, InvalidParamError } from '../errors';
+import { AddAccount } from '../../domain/usecases/add-account';
 
 export class SignUpController implements Controller {
   private readonly emailValidator: EmailValidator;
-
   private readonly cpfValidator: CpfValidator;
-
   private readonly dateValidator: DateValidator;
-
   private readonly cellphoneValidator: CellphoneValidator;
+  private readonly addAccount: AddAccount;
 
-  constructor(emailValidator: EmailValidator, cpfValidator: CpfValidator, dateValidator: DateValidator, cellphoneValidator: CellphoneValidator) {
+  constructor(emailValidator: EmailValidator, cpfValidator: CpfValidator, dateValidator: DateValidator, cellphoneValidator: CellphoneValidator, addAccount: AddAccount) {
     this.emailValidator = emailValidator;
     this.cpfValidator = cpfValidator;
     this.dateValidator = dateValidator;
     this.cellphoneValidator = cellphoneValidator;
+    this.addAccount = addAccount;
   }
 
   handle(httpRequest: HttpRequest): HttpResponse {
@@ -40,7 +40,7 @@ export class SignUpController implements Controller {
       }
 
       const {
-        email, password, passwordConfirmation, cpf, birthdate, cellphone,
+        name, email, password, passwordConfirmation, cpf, rg, birthdate, cellphone,
       } = httpRequest.body;
 
       const isEmailValid = this.emailValidator.isValid(email);
@@ -70,6 +70,16 @@ export class SignUpController implements Controller {
       if (!isCellphoneValid) {
         return badRequest(new InvalidParamError('cellphone'));
       }
+
+      this.addAccount.add({
+        name,
+        email,
+        password,
+        cpf,
+        rg,
+        birthdate,
+        cellphone,
+      });
 
       return {
         statusCode: 200,
