@@ -3,7 +3,7 @@ import {
   EmailValidator,
   CpfValidator,
   DateValidator,
-  CellphoneValidator,
+  PhoneNumberValidator,
   AddAccount,
   AddAccountModel,
   AccountModel,
@@ -21,7 +21,7 @@ const makeAddAccount = (): AddAccount => {
         cpf: 'valid_cpf',
         rg: 'valid_rg',
         birthdate: 'valid_birthdate',
-        cellphone: 'valid_cellphone',
+        phoneNumber: 'valid_phone_number',
       };
 
       return new Promise((resolve) => { resolve(fakeAccount); });
@@ -31,14 +31,14 @@ const makeAddAccount = (): AddAccount => {
   return new AddAccountStub();
 };
 
-const makeCellphoneValidator = (): CellphoneValidator => {
-  class CellphoneValidatorStub implements CellphoneValidator {
-    isValid(cellphone: string): boolean {
+const makePhoneNumberValidator = (): PhoneNumberValidator => {
+  class PhoneNumberValidatorStub implements PhoneNumberValidator {
+    isValid(phoneNumber: string): boolean {
       return true;
     }
   }
 
-  return new CellphoneValidatorStub();
+  return new PhoneNumberValidatorStub();
 };
 
 const makeDateValidator = (): DateValidator => {
@@ -76,7 +76,7 @@ interface SutTypes {
   emailValidatorStub: EmailValidator,
   cpfValidatorStub: CpfValidator,
   dateValidatorStub: DateValidator,
-  cellphoneValidatorStub: CellphoneValidator,
+  phoneNumberValidatorStub: PhoneNumberValidator,
   addAccountStub: AddAccount,
 }
 
@@ -84,17 +84,17 @@ const makeSut = (): SutTypes => {
   const emailValidatorStub = makeEmailValidator();
   const cpfValidatorStub = makeCpfValidator();
   const dateValidatorStub = makeDateValidator();
-  const cellphoneValidatorStub = makeCellphoneValidator();
+  const phoneNumberValidatorStub = makePhoneNumberValidator();
   const addAccountStub = makeAddAccount();
 
-  const sut = new SignUpController(emailValidatorStub, cpfValidatorStub, dateValidatorStub, cellphoneValidatorStub, addAccountStub);
+  const sut = new SignUpController(emailValidatorStub, cpfValidatorStub, dateValidatorStub, phoneNumberValidatorStub, addAccountStub);
 
   return {
     sut,
     emailValidatorStub,
     cpfValidatorStub,
     dateValidatorStub,
-    cellphoneValidatorStub,
+    phoneNumberValidatorStub,
     addAccountStub,
   };
 };
@@ -110,7 +110,7 @@ describe('SignUp Controller', () => {
         cpf: 'any_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -130,7 +130,7 @@ describe('SignUp Controller', () => {
         cpf: 'any_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -150,7 +150,7 @@ describe('SignUp Controller', () => {
         cpf: 'any_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -170,7 +170,7 @@ describe('SignUp Controller', () => {
         cpf: 'any_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -191,7 +191,7 @@ describe('SignUp Controller', () => {
         cpf: 'any_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -211,7 +211,7 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -231,7 +231,7 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password',
         cpf: 'any_cpf',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -251,7 +251,7 @@ describe('SignUp Controller', () => {
         passwordConfirmation: 'any_password',
         cpf: 'any_cpf',
         rg: 'any_rg',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -261,7 +261,7 @@ describe('SignUp Controller', () => {
     expect(httpResponse.body).toEqual(new MissingParamError('birthdate'));
   });
 
-  test('Should return 400 if cellphone is not provided', async () => {
+  test('Should return 400 if phoneNumber is not provided', async () => {
     const { sut } = makeSut();
     const httpRequest = {
       body: {
@@ -278,7 +278,7 @@ describe('SignUp Controller', () => {
     const httpResponse = await sut.handle(httpRequest);
 
     expect(httpResponse.statusCode).toBe(400);
-    expect(httpResponse.body).toEqual(new MissingParamError('cellphone'));
+    expect(httpResponse.body).toEqual(new MissingParamError('phoneNumber'));
   });
 
   test('Should return 400 if email provided is invalid', async () => {
@@ -295,7 +295,7 @@ describe('SignUp Controller', () => {
         cpf: 'any_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -319,7 +319,7 @@ describe('SignUp Controller', () => {
         cpf: 'any_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -344,7 +344,7 @@ describe('SignUp Controller', () => {
         cpf: 'any_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -368,7 +368,7 @@ describe('SignUp Controller', () => {
         cpf: 'invalid_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -392,7 +392,7 @@ describe('SignUp Controller', () => {
         cpf: 'any_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -417,7 +417,7 @@ describe('SignUp Controller', () => {
         cpf: 'any_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -441,7 +441,7 @@ describe('SignUp Controller', () => {
         cpf: 'any_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -465,7 +465,7 @@ describe('SignUp Controller', () => {
         cpf: 'any_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -490,7 +490,7 @@ describe('SignUp Controller', () => {
         cpf: 'any_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -500,10 +500,10 @@ describe('SignUp Controller', () => {
     expect(httpResponse.body).toEqual(new ServerError());
   });
 
-  test('Should return 400 if cellphone provided is invalid', async () => {
-    const { sut, cellphoneValidatorStub } = makeSut();
+  test('Should return 400 if phoneNumber provided is invalid', async () => {
+    const { sut, phoneNumberValidatorStub } = makeSut();
 
-    jest.spyOn(cellphoneValidatorStub, 'isValid').mockReturnValueOnce(false);
+    jest.spyOn(phoneNumberValidatorStub, 'isValid').mockReturnValueOnce(false);
 
     const httpRequest = {
       body: {
@@ -514,20 +514,20 @@ describe('SignUp Controller', () => {
         cpf: 'any_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
     const httpResponse = await sut.handle(httpRequest);
 
     expect(httpResponse.statusCode).toBe(400);
-    expect(httpResponse.body).toEqual(new InvalidParamError('cellphone'));
+    expect(httpResponse.body).toEqual(new InvalidParamError('phone number'));
   });
 
-  test('Should call CellphoneValidator with correct cellphone', async () => {
-    const { sut, cellphoneValidatorStub } = makeSut();
+  test('Should call PhoneNumberValidator with correct phoneNumber', async () => {
+    const { sut, phoneNumberValidatorStub } = makeSut();
 
-    const isValidSpy = jest.spyOn(cellphoneValidatorStub, 'isValid');
+    const isValidSpy = jest.spyOn(phoneNumberValidatorStub, 'isValid');
 
     const httpRequest = {
       body: {
@@ -538,19 +538,19 @@ describe('SignUp Controller', () => {
         cpf: 'any_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
     await sut.handle(httpRequest);
 
-    expect(isValidSpy).toHaveBeenCalledWith('any_cellphone');
+    expect(isValidSpy).toHaveBeenCalledWith('any_phone_number');
   });
 
-  test('Should return 500 if CellphoneValidator throws', async () => {
-    const { sut, cellphoneValidatorStub } = makeSut();
+  test('Should return 500 if PhoneNumberValidator throws', async () => {
+    const { sut, phoneNumberValidatorStub } = makeSut();
 
-    jest.spyOn(cellphoneValidatorStub, 'isValid').mockImplementationOnce(() => {
+    jest.spyOn(phoneNumberValidatorStub, 'isValid').mockImplementationOnce(() => {
       throw new Error();
     });
 
@@ -563,7 +563,7 @@ describe('SignUp Controller', () => {
         cpf: 'any_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -587,7 +587,7 @@ describe('SignUp Controller', () => {
         cpf: 'any_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -600,7 +600,7 @@ describe('SignUp Controller', () => {
       cpf: 'any_cpf',
       rg: 'any_rg',
       birthdate: 'any_birthdate',
-      cellphone: 'any_cellphone',
+      phoneNumber: 'any_phone_number',
     });
   });
 
@@ -620,7 +620,7 @@ describe('SignUp Controller', () => {
         cpf: 'any_cpf',
         rg: 'any_rg',
         birthdate: 'any_birthdate',
-        cellphone: 'any_cellphone',
+        phoneNumber: 'any_phone_number',
       },
     };
 
@@ -641,7 +641,7 @@ describe('SignUp Controller', () => {
         cpf: 'valid_cpf',
         rg: 'valid_rg',
         birthdate: 'valid_birthdate',
-        cellphone: 'valid_cellphone',
+        phoneNumber: 'valid_phone_number',
       },
     };
 
@@ -656,7 +656,7 @@ describe('SignUp Controller', () => {
       cpf: 'valid_cpf',
       rg: 'valid_rg',
       birthdate: 'valid_birthdate',
-      cellphone: 'valid_cellphone',
+      phoneNumber: 'valid_phone_number',
     });
   });
 });

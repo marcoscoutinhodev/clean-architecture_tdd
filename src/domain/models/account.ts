@@ -6,5 +6,5 @@ export interface AccountModel {
   cpf: string,
   rg: string,
   birthdate: string,
-  cellphone: string,
+  phoneNumber: string,
 }

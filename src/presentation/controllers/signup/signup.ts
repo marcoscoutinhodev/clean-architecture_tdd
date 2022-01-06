@@ -5,7 +5,7 @@ import {
   EmailValidator,
   CpfValidator,
   DateValidator,
-  CellphoneValidator,
+  PhoneNumberValidator,
   AddAccount,
 } from './signup-protocols';
 import { badRequest, ok, serverError } from '../../helpers/http-helper';
@@ -15,14 +15,14 @@ export class SignUpController implements Controller {
   private readonly emailValidator: EmailValidator;
   private readonly cpfValidator: CpfValidator;
   private readonly dateValidator: DateValidator;
-  private readonly cellphoneValidator: CellphoneValidator;
+  private readonly phoneNumberValidator: PhoneNumberValidator;
   private readonly addAccount: AddAccount;
 
-  constructor(emailValidator: EmailValidator, cpfValidator: CpfValidator, dateValidator: DateValidator, cellphoneValidator: CellphoneValidator, addAccount: AddAccount) {
+  constructor(emailValidator: EmailValidator, cpfValidator: CpfValidator, dateValidator: DateValidator, phoneNumberValidator: PhoneNumberValidator, addAccount: AddAccount) {
     this.emailValidator = emailValidator;
     this.cpfValidator = cpfValidator;
     this.dateValidator = dateValidator;
-    this.cellphoneValidator = cellphoneValidator;
+    this.phoneNumberValidator = phoneNumberValidator;
     this.addAccount = addAccount;
   }
 
@@ -36,7 +36,7 @@ export class SignUpController implements Controller {
         'cpf',
         'rg',
         'birthdate',
-        'cellphone',
+        'phoneNumber',
       ];
 
       for (const field of requiredFields) {
@@ -46,7 +46,7 @@ export class SignUpController implements Controller {
       }
 
       const {
-        name, email, password, passwordConfirmation, cpf, rg, birthdate, cellphone,
+        name, email, password, passwordConfirmation, cpf, rg, birthdate, phoneNumber,
       } = httpRequest.body;
 
       const isEmailValid = this.emailValidator.isValid(email);
@@ -71,10 +71,10 @@ export class SignUpController implements Controller {
         return badRequest(new InvalidParamError('birthdate'));
       }
 
-      const isCellphoneValid = this.cellphoneValidator.isValid(cellphone);
+      const isPhoneNumberValid = this.phoneNumberValidator.isValid(phoneNumber);
 
-      if (!isCellphoneValid) {
-        return badRequest(new InvalidParamError('cellphone'));
+      if (!isPhoneNumberValid) {
+        return badRequest(new InvalidParamError('phone number'));
       }
 
       const account = await this.addAccount.add({
@@ -84,7 +84,7 @@ export class SignUpController implements Controller {
         cpf,
         rg,
         birthdate,
-        cellphone,
+        phoneNumber,
       });
 
       return ok(account);

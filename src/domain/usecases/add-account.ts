@@ -7,7 +7,7 @@ export interface AddAccountModel {
   cpf: string,
   rg: string,
   birthdate: string,
-  cellphone: string,
+  phoneNumber: string,
 }
 
 export interface AddAccount {
