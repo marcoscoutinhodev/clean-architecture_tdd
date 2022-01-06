@@ -20,4 +20,12 @@ describe('PhoneNumberValidator Adapter', () => {
 
     expect(isValid).toBe(true);
   });
+
+  test('Should call validator with correct phone number', () => {
+    const isValidSpy = jest.spyOn(sut, 'isValid');
+
+    sut.isValid('any_email@email.com');
+
+    expect(isValidSpy).toHaveBeenCalledWith('any_email@email.com');
+  });
 });
