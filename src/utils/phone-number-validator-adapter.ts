@@ -2,6 +2,6 @@ import { PhoneNumberValidator } from '../presentation/protocols/phone-number-val
 
 export class PhoneNumberValidatorAdapter implements PhoneNumberValidator {
   isValid(phoneNumber: string): boolean {
-    return false;
+    return /^\+55-\d{2}-\d{5}-\d{4}$/g.test(phoneNumber);
   }
 }
