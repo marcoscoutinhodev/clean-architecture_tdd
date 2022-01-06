@@ -20,4 +20,12 @@ describe('CpfValidator Adapter', () => {
 
     expect(isValid).toBe(true);
   });
+
+  test('Should call validator with correct cpf', () => {
+    const isValidSpy = jest.spyOn(sut, 'isValid');
+
+    sut.isValid('any_cpf');
+
+    expect(isValidSpy).toHaveBeenCalledWith('any_cpf');
+  });
 });
