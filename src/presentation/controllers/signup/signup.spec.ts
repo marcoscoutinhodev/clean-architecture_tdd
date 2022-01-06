@@ -87,7 +87,13 @@ const makeSut = (): SutTypes => {
   const phoneNumberValidatorStub = makePhoneNumberValidator();
   const addAccountStub = makeAddAccount();
 
-  const sut = new SignUpController(emailValidatorStub, cpfValidatorStub, dateValidatorStub, phoneNumberValidatorStub, addAccountStub);
+  const sut = new SignUpController({
+    emailValidator: emailValidatorStub,
+    cpfValidator: cpfValidatorStub,
+    dateValidator: dateValidatorStub,
+    phoneNumberValidator: phoneNumberValidatorStub,
+    addAccount: addAccountStub,
+  });
 
   return {
     sut,

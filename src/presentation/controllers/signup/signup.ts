@@ -7,6 +7,7 @@ import {
   DateValidator,
   PhoneNumberValidator,
   AddAccount,
+  Dependencies,
 } from './signup-protocols';
 import { badRequest, ok, serverError } from '../../helpers/http-helper';
 import { MissingParamError, InvalidParamError } from '../../errors';
@@ -18,12 +19,12 @@ export class SignUpController implements Controller {
   private readonly phoneNumberValidator: PhoneNumberValidator;
   private readonly addAccount: AddAccount;
 
-  constructor(emailValidator: EmailValidator, cpfValidator: CpfValidator, dateValidator: DateValidator, phoneNumberValidator: PhoneNumberValidator, addAccount: AddAccount) {
-    this.emailValidator = emailValidator;
-    this.cpfValidator = cpfValidator;
-    this.dateValidator = dateValidator;
-    this.phoneNumberValidator = phoneNumberValidator;
-    this.addAccount = addAccount;
+  constructor(dependecies: Dependencies) {
+    this.emailValidator = dependecies.emailValidator;
+    this.cpfValidator = dependecies.cpfValidator;
+    this.dateValidator = dependecies.dateValidator;
+    this.phoneNumberValidator = dependecies.phoneNumberValidator;
+    this.addAccount = dependecies.addAccount;
   }
 
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
