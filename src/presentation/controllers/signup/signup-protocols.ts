@@ -13,9 +13,9 @@ export * from '../../../domain/usecases/add-account';
 export * from '../../../domain/models/account';
 
 export interface Dependencies {
-  emailValidator: EmailValidator,
-  cpfValidator: CpfValidator,
-  dateValidator: DateValidator,
-  phoneNumberValidator: PhoneNumberValidator,
+  emailValidator: EmailValidator
+  cpfValidator: CpfValidator
+  dateValidator: DateValidator
+  phoneNumberValidator: PhoneNumberValidator
   addAccount: AddAccount
 }

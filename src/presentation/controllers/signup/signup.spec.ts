@@ -72,12 +72,12 @@ const makeEmailValidator = (): EmailValidator => {
 };
 
 interface SutTypes {
-  sut: SignUpController,
-  emailValidatorStub: EmailValidator,
-  cpfValidatorStub: CpfValidator,
-  dateValidatorStub: DateValidator,
-  phoneNumberValidatorStub: PhoneNumberValidator,
-  addAccountStub: AddAccount,
+  sut: SignUpController
+  emailValidatorStub: EmailValidator
+  cpfValidatorStub: CpfValidator
+  dateValidatorStub: DateValidator
+  phoneNumberValidatorStub: PhoneNumberValidator
+  addAccountStub: AddAccount
 }
 
 const makeSut = (): SutTypes => {
