@@ -3,7 +3,7 @@ import { CpfValidator } from '../presentation/protocols/cpf-validator';
 export class CpfValidatorAdapter implements CpfValidator {
   isValid(cpf: string): boolean {
     const formatedCpf: string = cpf.replace(/[^0-9]+/g, '');
-    // /^[0-9]{11}$/g
+
     if (formatedCpf.length !== 11) return false;
 
     let result: number = (this.verifyCpf(10, formatedCpf));
