@@ -120,4 +120,24 @@ describe('DbAddAccount Usecase', () => {
       phoneNumber: 'valid_phone_number',
     });
   });
+
+  test('Should throw if AddAccountRepository throws', () => {
+    const { sut, addAccountRepositoryStub } = makeSut();
+
+    jest.spyOn(addAccountRepositoryStub, 'add').mockImplementationOnce(() => { throw new Error(); });
+
+    const accountData = {
+      name: 'valid_name',
+      email: 'valid_email',
+      password: 'valid_password',
+      cpf: 'valid_cpf',
+      rg: 'valid_rg',
+      birthdate: 'valid_birthdate',
+      phoneNumber: 'valid_phone_number',
+    };
+
+    const response = sut.add(accountData);
+
+    expect(response).rejects.toThrow();
+  });
 });
