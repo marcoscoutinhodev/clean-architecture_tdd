@@ -6,21 +6,10 @@ import { MongoHelper } from '../helpers/mongo-helper';
 export class AccountMongoRepository implements AddAccountRepository {
   async add(accountData: AddAccountModel): Promise<AccountModel> {
     const accountCollection = MongoHelper.getCollection('accounts');
-    const result = await accountCollection.insertOne(accountData);
-    const accountId = result.insertedId;
-    const { _id, ...account }: any = await accountCollection.findOne({
-      _id: accountId,
-    });
 
-    return {
-      id: _id,
-      name: account!.name,
-      email: account!.email,
-      password: account!.password,
-      cpf: account!.cpf,
-      rg: account!.rg,
-      birthdate: account!.birthdate,
-      phoneNumber: account!.phoneNumber,
-    };
+    const accountId = await (await accountCollection.insertOne(accountData)).insertedId;
+    const account = await accountCollection.findOne({ _id: accountId });
+
+    return MongoHelper.map(account);
   }
 }
