@@ -5,8 +5,8 @@ module.exports = {
   coverageProvider: 'v8',
   preset: '@shelf/jest-mongodb',
   roots: ['<rootDir>/src'],
-  testEnvironment: 'jest-environment-node',
   transform: {
     '.+\\.ts$': 'ts-jest',
   },
+  watchPathIgnorePatterns: ['globalConfig'],
 };
