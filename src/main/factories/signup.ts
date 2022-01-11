@@ -4,6 +4,7 @@ import { LogControllerDecorator } from '../decorator/log';
 import { SignUpController } from '../../presentation/controllers/signup/signup';
 import { Controller } from '../../presentation/protocols';
 import { AccountMongoRepository } from '../../infra/db/mongodb/account-repository/account';
+import { LogMongoRepository } from '../../infra/db/mongodb/log-repository/log';
 import {
   EmailValidatorAdapter, CpfValidatorAdapter, DateValidatorAdapter, PhoneNumberValidatorAdapter,
 } from '../../utils';
@@ -26,5 +27,7 @@ export const makeSignUpController = (): Controller => {
     addAccount: dbAddAccount,
   });
 
-  return new LogControllerDecorator(signUpController);
+  const logMongoRepository = new LogMongoRepository();
+
+  return new LogControllerDecorator(signUpController, logMongoRepository);
 };
