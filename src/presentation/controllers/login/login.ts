@@ -2,7 +2,7 @@ import {
   Controller, HttpRequest, HttpResponse, EmailValidator,
 } from './login-protocols';
 import { ok, badRequest } from '../../helpers/http-helper';
-import { MissingParamError } from '../../errors';
+import { InvalidParamError, MissingParamError } from '../../errors';
 
 export class LoginController implements Controller {
   private readonly emailValidator: EmailValidator;
@@ -22,7 +22,11 @@ export class LoginController implements Controller {
       return badRequest(new MissingParamError('password'));
     }
 
-    this.emailValidator.isValid(email);
+    const isEmailValid = this.emailValidator.isValid(email);
+
+    if (!isEmailValid) {
+      return badRequest(new InvalidParamError('email'));
+    }
 
     return ok('');
   }
