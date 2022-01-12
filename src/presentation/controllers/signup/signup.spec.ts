@@ -8,9 +8,50 @@ import {
   AddAccountModel,
   AccountModel,
   HttpRequest,
+  Validation,
 } from './signup-protocols';
 import { MissingParamError, InvalidParamError, ServerError } from '../../errors';
 import { ok, badRequest, serverError } from '../../helpers/http-helper';
+
+const makeEmailValidator = (): EmailValidator => {
+  class EmailValidatorStub implements EmailValidator {
+    isValid(email: string): boolean {
+      return true;
+    }
+  }
+
+  return new EmailValidatorStub();
+};
+
+const makeCpfValidator = (): CpfValidator => {
+  class CpfValidatorStub implements CpfValidator {
+    isValid(cpf: string) {
+      return true;
+    }
+  }
+
+  return new CpfValidatorStub();
+};
+
+const makeDateValidator = (): DateValidator => {
+  class DateValidatorStub implements DateValidator {
+    isValid(date: string): boolean {
+      return true;
+    }
+  }
+
+  return new DateValidatorStub();
+};
+
+const makePhoneNumberValidator = (): PhoneNumberValidator => {
+  class PhoneNumberValidatorStub implements PhoneNumberValidator {
+    isValid(phoneNumber: string): boolean {
+      return true;
+    }
+  }
+
+  return new PhoneNumberValidatorStub();
+};
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
@@ -33,44 +74,14 @@ const makeAddAccount = (): AddAccount => {
   return new AddAccountStub();
 };
 
-const makePhoneNumberValidator = (): PhoneNumberValidator => {
-  class PhoneNumberValidatorStub implements PhoneNumberValidator {
-    isValid(phoneNumber: string): boolean {
-      return true;
+const makeValidation = (): Validation => {
+  class ValidationStub implements Validation {
+    validate(input: any): null | Error {
+      return null;
     }
   }
 
-  return new PhoneNumberValidatorStub();
-};
-
-const makeDateValidator = (): DateValidator => {
-  class DateValidatorStub implements DateValidator {
-    isValid(date: string): boolean {
-      return true;
-    }
-  }
-
-  return new DateValidatorStub();
-};
-
-const makeCpfValidator = (): CpfValidator => {
-  class CpfValidatorStub implements CpfValidator {
-    isValid(cpf: string) {
-      return true;
-    }
-  }
-
-  return new CpfValidatorStub();
-};
-
-const makeEmailValidator = (): EmailValidator => {
-  class EmailValidatorStub implements EmailValidator {
-    isValid(email: string): boolean {
-      return true;
-    }
-  }
-
-  return new EmailValidatorStub();
+  return new ValidationStub();
 };
 
 const makeFakeRequest = (): HttpRequest => ({
@@ -93,6 +104,7 @@ interface SutTypes {
   dateValidatorStub: DateValidator
   phoneNumberValidatorStub: PhoneNumberValidator
   addAccountStub: AddAccount
+  validationStub: Validation
 }
 
 const makeSut = (): SutTypes => {
@@ -101,6 +113,7 @@ const makeSut = (): SutTypes => {
   const dateValidatorStub = makeDateValidator();
   const phoneNumberValidatorStub = makePhoneNumberValidator();
   const addAccountStub = makeAddAccount();
+  const validationStub = makeValidation();
 
   const sut = new SignUpController({
     emailValidator: emailValidatorStub,
@@ -108,6 +121,7 @@ const makeSut = (): SutTypes => {
     dateValidator: dateValidatorStub,
     phoneNumberValidator: phoneNumberValidatorStub,
     addAccount: addAccountStub,
+    validation: validationStub,
   });
 
   return {
@@ -117,6 +131,7 @@ const makeSut = (): SutTypes => {
     dateValidatorStub,
     phoneNumberValidatorStub,
     addAccountStub,
+    validationStub,
   };
 };
 
@@ -403,5 +418,15 @@ describe('SignUp Controller', () => {
     const httpResponse = await sut.handle(makeFakeRequest());
 
     expect(httpResponse).toEqual(ok(makeFakeAccount()));
+  });
+
+  test('Should call Validation with correct value', async () => {
+    const { sut, validationStub } = makeSut();
+    const httpRequest = makeFakeRequest();
+    const validateSpy = jest.spyOn(validationStub, 'validate');
+
+    await sut.handle(httpRequest);
+
+    expect(validateSpy).toHaveBeenCalledWith(httpRequest.body);
   });
 });
