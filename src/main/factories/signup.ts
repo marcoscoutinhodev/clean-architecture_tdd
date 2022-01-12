@@ -1,13 +1,14 @@
-import { DbAddAccount } from '../../data/usecases/add-account/db-add-account';
-import { BcrypAdapter } from '../../infra/criptography/bcrypt-adapter';
-import { LogControllerDecorator } from '../decorator/log';
 import { SignUpController } from '../../presentation/controllers/signup/signup';
 import { Controller } from '../../presentation/protocols';
-import { AccountMongoRepository } from '../../infra/db/mongodb/account-repository/account';
-import { LogMongoRepository } from '../../infra/db/mongodb/log-repository/log';
 import {
   EmailValidatorAdapter, CpfValidatorAdapter, DateValidatorAdapter, PhoneNumberValidatorAdapter,
 } from '../../utils';
+import { BcrypAdapter } from '../../infra/criptography/bcrypt-adapter';
+import { AccountMongoRepository } from '../../infra/db/mongodb/account-repository/account';
+import { DbAddAccount } from '../../data/usecases/add-account/db-add-account';
+import { makeSignUpValidation } from './signup-validation';
+import { LogControllerDecorator } from '../decorator/log';
+import { LogMongoRepository } from '../../infra/db/mongodb/log-repository/log';
 
 export const makeSignUpController = (): Controller => {
   const salt = 12;
@@ -25,6 +26,7 @@ export const makeSignUpController = (): Controller => {
     dateValidator,
     phoneNumberValidator,
     addAccount: dbAddAccount,
+    validation: makeSignUpValidation(),
   });
 
   const logMongoRepository = new LogMongoRepository();

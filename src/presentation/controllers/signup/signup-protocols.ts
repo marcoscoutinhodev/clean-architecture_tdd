@@ -20,5 +20,5 @@ export interface Dependencies {
   dateValidator: DateValidator
   phoneNumberValidator: PhoneNumberValidator
   addAccount: AddAccount
-  validation?: Validation
+  validation: Validation
 }
