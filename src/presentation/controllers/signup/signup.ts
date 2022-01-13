@@ -2,7 +2,6 @@ import {
   HttpRequest,
   HttpResponse,
   Controller,
-  EmailValidator,
   CpfValidator,
   DateValidator,
   PhoneNumberValidator,
@@ -14,7 +13,6 @@ import { badRequest, ok, serverError } from '../../helpers/http-helper';
 import { InvalidParamError } from '../../errors';
 
 export class SignUpController implements Controller {
-  private readonly emailValidator: EmailValidator;
   private readonly cpfValidator: CpfValidator;
   private readonly dateValidator: DateValidator;
   private readonly phoneNumberValidator: PhoneNumberValidator;
@@ -22,7 +20,6 @@ export class SignUpController implements Controller {
   private readonly validation: Validation;
 
   constructor(dependecies: Dependencies) {
-    this.emailValidator = dependecies.emailValidator;
     this.cpfValidator = dependecies.cpfValidator;
     this.dateValidator = dependecies.dateValidator;
     this.phoneNumberValidator = dependecies.phoneNumberValidator;
@@ -41,12 +38,6 @@ export class SignUpController implements Controller {
       const {
         name, email, password, cpf, rg, birthdate, phoneNumber,
       } = httpRequest.body;
-
-      const isEmailValid = this.emailValidator.isValid(email);
-
-      if (!isEmailValid) {
-        return badRequest(new InvalidParamError('email'));
-      }
 
       const isCpfValid = this.cpfValidator.isValid(cpf);
 

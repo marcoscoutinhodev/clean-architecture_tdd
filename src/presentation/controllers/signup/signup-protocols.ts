@@ -1,7 +1,6 @@
 import { AddAccount } from '../../../domain/usecases/add-account';
 import { CpfValidator } from '../../protocols/cpf-validator';
 import { DateValidator } from '../../protocols/date-validator';
-import { EmailValidator } from '../../protocols/email-validator';
 import { PhoneNumberValidator } from '../../protocols/phone-number-validator';
 import { Validation } from '../../helpers/validators/validation';
 
@@ -15,7 +14,6 @@ export * from '../../../domain/usecases/add-account';
 export * from '../../../domain/models/account';
 
 export interface Dependencies {
-  emailValidator: EmailValidator
   cpfValidator: CpfValidator
   dateValidator: DateValidator
   phoneNumberValidator: PhoneNumberValidator
