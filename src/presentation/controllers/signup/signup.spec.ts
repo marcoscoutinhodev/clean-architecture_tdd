@@ -12,16 +12,6 @@ import {
 import { MissingParamError, InvalidParamError, ServerError } from '../../errors';
 import { ok, badRequest, serverError } from '../../helpers/http-helper';
 
-const makeCpfValidator = (): CpfValidator => {
-  class CpfValidatorStub implements CpfValidator {
-    isValid(cpf: string) {
-      return true;
-    }
-  }
-
-  return new CpfValidatorStub();
-};
-
 const makeDateValidator = (): DateValidator => {
   class DateValidatorStub implements DateValidator {
     isValid(date: string): boolean {
@@ -88,7 +78,6 @@ const makeFakeRequest = (): HttpRequest => ({
 
 interface SutTypes {
   sut: SignUpController
-  cpfValidatorStub: CpfValidator
   dateValidatorStub: DateValidator
   phoneNumberValidatorStub: PhoneNumberValidator
   addAccountStub: AddAccount
@@ -96,14 +85,12 @@ interface SutTypes {
 }
 
 const makeSut = (): SutTypes => {
-  const cpfValidatorStub = makeCpfValidator();
   const dateValidatorStub = makeDateValidator();
   const phoneNumberValidatorStub = makePhoneNumberValidator();
   const addAccountStub = makeAddAccount();
   const validationStub = makeValidation();
 
   const sut = new SignUpController({
-    cpfValidator: cpfValidatorStub,
     dateValidator: dateValidatorStub,
     phoneNumberValidator: phoneNumberValidatorStub,
     addAccount: addAccountStub,
@@ -112,7 +99,6 @@ const makeSut = (): SutTypes => {
 
   return {
     sut,
-    cpfValidatorStub,
     dateValidatorStub,
     phoneNumberValidatorStub,
     addAccountStub,
@@ -121,38 +107,6 @@ const makeSut = (): SutTypes => {
 };
 
 describe('SignUp Controller', () => {
-  test('Should return 400 if cpf provided is invalid', async () => {
-    const { sut, cpfValidatorStub } = makeSut();
-
-    jest.spyOn(cpfValidatorStub, 'isValid').mockReturnValueOnce(false);
-
-    const httpResponse = await sut.handle(makeFakeRequest());
-
-    expect(httpResponse).toEqual(badRequest(new InvalidParamError('cpf')));
-  });
-
-  test('Should call CpfValidator with correct cpf', async () => {
-    const { sut, cpfValidatorStub } = makeSut();
-
-    const isValidSpy = jest.spyOn(cpfValidatorStub, 'isValid');
-
-    await sut.handle(makeFakeRequest());
-
-    expect(isValidSpy).toHaveBeenCalledWith('any_cpf');
-  });
-
-  test('Should return 500 is CpfValidator throws', async () => {
-    const { sut, cpfValidatorStub } = makeSut();
-
-    jest.spyOn(cpfValidatorStub, 'isValid').mockImplementationOnce(() => {
-      throw new Error();
-    });
-
-    const httpResponse = await sut.handle(makeFakeRequest());
-
-    expect(httpResponse).toEqual(serverError(new ServerError()));
-  });
-
   test('Should return 400 if birthdate provided is invalid', async () => {
     const { sut, dateValidatorStub } = makeSut();
 

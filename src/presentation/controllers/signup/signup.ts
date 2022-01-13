@@ -2,7 +2,6 @@ import {
   HttpRequest,
   HttpResponse,
   Controller,
-  CpfValidator,
   DateValidator,
   PhoneNumberValidator,
   AddAccount,
@@ -13,14 +12,12 @@ import { badRequest, ok, serverError } from '../../helpers/http-helper';
 import { InvalidParamError } from '../../errors';
 
 export class SignUpController implements Controller {
-  private readonly cpfValidator: CpfValidator;
   private readonly dateValidator: DateValidator;
   private readonly phoneNumberValidator: PhoneNumberValidator;
   private readonly addAccount: AddAccount;
   private readonly validation: Validation;
 
   constructor(dependecies: Dependencies) {
-    this.cpfValidator = dependecies.cpfValidator;
     this.dateValidator = dependecies.dateValidator;
     this.phoneNumberValidator = dependecies.phoneNumberValidator;
     this.addAccount = dependecies.addAccount;
@@ -38,12 +35,6 @@ export class SignUpController implements Controller {
       const {
         name, email, password, cpf, rg, birthdate, phoneNumber,
       } = httpRequest.body;
-
-      const isCpfValid = this.cpfValidator.isValid(cpf);
-
-      if (!isCpfValid) {
-        return badRequest(new InvalidParamError('cpf'));
-      }
 
       const isBirthDateValid = this.dateValidator.isValid(birthdate);
 

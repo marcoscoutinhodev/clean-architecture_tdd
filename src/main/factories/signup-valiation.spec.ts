@@ -5,6 +5,8 @@ import { Validation } from '../../presentation/helpers/validators/validation';
 import { CompareFieldsValidation } from '../../presentation/helpers/validators/compare-fields-validation';
 import { EmailValidation } from '../../presentation/helpers/validators/email-validation';
 import { EmailValidator } from '../../presentation/protocols/email-validator';
+import { CpfValidation } from '../../presentation/helpers/validators/cpf-validation';
+import { CpfValidator } from '../../presentation/protocols/cpf-validator';
 
 jest.mock('../../presentation/helpers/validators/validation-composite');
 
@@ -16,6 +18,16 @@ const makeEmailValidator = (): EmailValidator => {
   }
 
   return new EmailValidatorStub();
+};
+
+const makeCpfValidator = (): CpfValidator => {
+  class CpfValidatorStub implements CpfValidator {
+    isValid(cpf: string): boolean {
+      return true;
+    }
+  }
+
+  return new CpfValidatorStub();
 };
 
 describe('SignUpValidation Factory', () => {
@@ -39,6 +51,7 @@ describe('SignUpValidation Factory', () => {
 
     validations.push(new CompareFieldsValidation('password', 'passwordConfirmation'));
     validations.push(new EmailValidation('email', makeEmailValidator()));
+    validations.push(new CpfValidation('cpf', makeCpfValidator()));
 
     expect(ValidationComposite).toHaveBeenCalledWith(validations);
   });
