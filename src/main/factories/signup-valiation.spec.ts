@@ -7,6 +7,8 @@ import { EmailValidation } from '../../presentation/helpers/validators/email-val
 import { EmailValidator } from '../../presentation/protocols/email-validator';
 import { CpfValidation } from '../../presentation/helpers/validators/cpf-validation';
 import { CpfValidator } from '../../presentation/protocols/cpf-validator';
+import { DateValidation } from '../../presentation/helpers/validators/date-validation';
+import { DateValidatorAdapter } from '../../utils';
 
 jest.mock('../../presentation/helpers/validators/validation-composite');
 
@@ -52,6 +54,7 @@ describe('SignUpValidation Factory', () => {
     validations.push(new CompareFieldsValidation('password', 'passwordConfirmation'));
     validations.push(new EmailValidation('email', makeEmailValidator()));
     validations.push(new CpfValidation('cpf', makeCpfValidator()));
+    validations.push(new DateValidation('birthdate', new DateValidatorAdapter()));
 
     expect(ValidationComposite).toHaveBeenCalledWith(validations);
   });
