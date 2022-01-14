@@ -7,7 +7,7 @@ import {
   Validation,
 } from './signup-protocols';
 import { MissingParamError, InvalidParamError, ServerError } from '../../errors';
-import { ok, badRequest, serverError } from '../../helpers/http-helper';
+import { ok, badRequest, serverError } from '../../helpers/http/http-helper';
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
