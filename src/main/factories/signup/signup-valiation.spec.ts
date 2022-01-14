@@ -1,15 +1,17 @@
 import { makeSignUpValidation } from './signup-validation';
+import {
+  ValidationComposite,
+  RequiredFieldValidation,
+  CompareFieldsValidation,
+  EmailValidation,
+  CpfValidation,
+  DateValidation,
+  PhoneNumberValidation,
+} from '../../../presentation/helpers/validators';
 import { Validation } from '../../../presentation/protocols/validation';
-import { ValidationComposite } from '../../../presentation/helpers/validators/validation-composite';
-import { RequiredFieldValidation } from '../../../presentation/helpers/validators/required-field-validation';
-import { CompareFieldsValidation } from '../../../presentation/helpers/validators/compare-fields-validation';
-import { EmailValidation } from '../../../presentation/helpers/validators/email-validation';
 import { EmailValidator } from '../../../presentation/protocols/email-validator';
-import { CpfValidation } from '../../../presentation/helpers/validators/cpf-validation';
 import { CpfValidator } from '../../../presentation/protocols/cpf-validator';
-import { DateValidation } from '../../../presentation/helpers/validators/date-validation';
 import { DateValidator } from '../../../presentation/protocols/date-validator';
-import { PhoneNumberValidation } from '../../../presentation/helpers/validators/phone-number-validation';
 import { PhoneNumberValidator } from '../../../presentation/protocols/phone-number-validator';
 
 jest.mock('../../../presentation/helpers/validators/validation-composite');

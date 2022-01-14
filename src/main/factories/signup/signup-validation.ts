@@ -1,14 +1,16 @@
-import { ValidationComposite } from '../../../presentation/helpers/validators/validation-composite';
-import { RequiredFieldValidation } from '../../../presentation/helpers/validators/required-field-validation';
+import {
+  ValidationComposite,
+  RequiredFieldValidation,
+  CompareFieldsValidation,
+  EmailValidation,
+  CpfValidation,
+  DateValidation,
+  PhoneNumberValidation,
+} from '../../../presentation/helpers/validators';
 import { Validation } from '../../../presentation/protocols/validation';
-import { CompareFieldsValidation } from '../../../presentation/helpers/validators/compare-fields-validation';
-import { EmailValidation } from '../../../presentation/helpers/validators/email-validation';
 import {
   CpfValidatorAdapter, DateValidatorAdapter, EmailValidatorAdapter, PhoneNumberValidatorAdapter,
 } from '../../../utils';
-import { CpfValidation } from '../../../presentation/helpers/validators/cpf-validation';
-import { DateValidation } from '../../../presentation/helpers/validators/date-validation';
-import { PhoneNumberValidation } from '../../../presentation/helpers/validators/phone-number-validation';
 
 export const makeSignUpValidation = (): ValidationComposite => {
   const validations: Validation[] = [];
