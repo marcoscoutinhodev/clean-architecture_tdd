@@ -1,6 +1,5 @@
 import { SignUpController } from './signup';
 import {
-  PhoneNumberValidator,
   AddAccount,
   AddAccountModel,
   AccountModel,
@@ -9,16 +8,6 @@ import {
 } from './signup-protocols';
 import { MissingParamError, InvalidParamError, ServerError } from '../../errors';
 import { ok, badRequest, serverError } from '../../helpers/http-helper';
-
-const makePhoneNumberValidator = (): PhoneNumberValidator => {
-  class PhoneNumberValidatorStub implements PhoneNumberValidator {
-    isValid(phoneNumber: string): boolean {
-      return true;
-    }
-  }
-
-  return new PhoneNumberValidatorStub();
-};
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
@@ -66,63 +55,27 @@ const makeFakeRequest = (): HttpRequest => ({
 
 interface SutTypes {
   sut: SignUpController
-  phoneNumberValidatorStub: PhoneNumberValidator
   addAccountStub: AddAccount
   validationStub: Validation
 }
 
 const makeSut = (): SutTypes => {
-  const phoneNumberValidatorStub = makePhoneNumberValidator();
   const addAccountStub = makeAddAccount();
   const validationStub = makeValidation();
 
   const sut = new SignUpController({
-    phoneNumberValidator: phoneNumberValidatorStub,
     addAccount: addAccountStub,
     validation: validationStub,
   });
 
   return {
     sut,
-    phoneNumberValidatorStub,
     addAccountStub,
     validationStub,
   };
 };
 
 describe('SignUp Controller', () => {
-  test('Should return 400 if phoneNumber provided is invalid', async () => {
-    const { sut, phoneNumberValidatorStub } = makeSut();
-
-    jest.spyOn(phoneNumberValidatorStub, 'isValid').mockReturnValueOnce(false);
-
-    const httpResponse = await sut.handle(makeFakeRequest());
-
-    expect(httpResponse).toEqual(badRequest(new InvalidParamError('phone number')));
-  });
-
-  test('Should call PhoneNumberValidator with correct phoneNumber', async () => {
-    const { sut, phoneNumberValidatorStub } = makeSut();
-
-    const isValidSpy = jest.spyOn(phoneNumberValidatorStub, 'isValid');
-
-    await sut.handle(makeFakeRequest());
-
-    expect(isValidSpy).toHaveBeenCalledWith('any_phone_number');
-  });
-
-  test('Should return 500 if PhoneNumberValidator throws', async () => {
-    const { sut, phoneNumberValidatorStub } = makeSut();
-
-    jest.spyOn(phoneNumberValidatorStub, 'isValid').mockImplementationOnce(() => {
-      throw new Error();
-    });
-
-    const httpResponse = await sut.handle(makeFakeRequest());
-
-    expect(httpResponse).toEqual(serverError(new ServerError()));
-  });
-
   test('Should call AddAccount with correct value', async () => {
     const { sut, addAccountStub } = makeSut();
 
