@@ -1,4 +1,4 @@
-import { Validation } from './validation';
+import { Validation } from '../../protocols/validation';
 import { CpfValidator } from '../../protocols/cpf-validator';
 import { InvalidParamError } from '../../errors';
 

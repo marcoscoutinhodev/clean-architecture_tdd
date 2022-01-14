@@ -1,6 +1,6 @@
 import { InvalidParamError } from '../../errors';
 import { DateValidator } from '../../protocols/date-validator';
-import { Validation } from './validation';
+import { Validation } from '../../protocols/validation';
 
 export class DateValidation implements Validation {
   private readonly fieldName: string;
