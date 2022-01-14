@@ -1,9 +1,11 @@
 import { CompareFieldsValidation } from './compare-fields-validation';
 import { InvalidParamError } from '../../errors';
 
+const makeSut = (): CompareFieldsValidation => new CompareFieldsValidation('field', 'fieldToCompare');
+
 describe('CompareFields Validation', () => {
   test('Should return an InvalidParamError if validation fails', () => {
-    const sut = new CompareFieldsValidation('field', 'fieldToCompare');
+    const sut = makeSut();
     const error = sut.validate({
       field: 'any_value',
       fieldToCompare: 'wrong_value',
@@ -13,7 +15,7 @@ describe('CompareFields Validation', () => {
   });
 
   test('Should return null if validation succeeds', () => {
-    const sut = new CompareFieldsValidation('field', 'fieldToCompare');
+    const sut = makeSut();
     const error = sut.validate({
       field: 'any_value',
       fieldToCompare: 'any_value',
