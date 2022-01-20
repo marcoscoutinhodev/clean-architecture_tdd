@@ -64,4 +64,12 @@ describe('DbAuthentication UseCase', () => {
 
     expect(response).rejects.toThrow();
   });
+
+  test('Should return null if LoadAccountByEmailRepository returns null', async () => {
+    const { sut, loadAccountByEmailRepositoryStub } = makeSut();
+    jest.spyOn(loadAccountByEmailRepositoryStub, 'load').mockImplementationOnce(async () => null);
+    const accessToken = await sut.auth(makeAuthentication());
+
+    expect(accessToken).toBeNull();
+  });
 });
