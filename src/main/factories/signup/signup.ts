@@ -9,9 +9,9 @@ import { LogMongoRepository } from '../../../infra/db/mongodb/log-repository/log
 
 export const makeSignUpController = (): Controller => {
   const salt = 12;
-  const encrypter = new BcrypAdapter(salt);
+  const hasher = new BcrypAdapter(salt);
   const addAccountRepository = new AccountMongoRepository();
-  const dbAddAccount = new DbAddAccount(encrypter, addAccountRepository);
+  const dbAddAccount = new DbAddAccount(hasher, addAccountRepository);
 
   const signUpController = new SignUpController({
     addAccount: dbAddAccount,
