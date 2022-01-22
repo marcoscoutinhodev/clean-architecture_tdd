@@ -1,6 +1,17 @@
 import { Collection } from 'mongodb';
+import { AddAccountModel } from '../../../../domain/usecases/add-account';
 import { MongoHelper } from '../helpers/mongo-helper';
 import { AccountMongoRepository } from './account';
+
+const makeFakeAddAccountModel = (): AddAccountModel => ({
+  name: 'any_name',
+  email: 'any_email@email.com',
+  password: 'any_password',
+  cpf: 'any_cpf',
+  rg: 'any_rg',
+  birthdate: 'any_birthdate',
+  phoneNumber: 'any_phone_number',
+});
 
 describe('Account MongoDB Repository', () => {
   let accountCollection: Collection;
@@ -22,15 +33,7 @@ describe('Account MongoDB Repository', () => {
 
   test('Should return an account on add success', async () => {
     const sut = makeSut();
-    const account = await sut.add({
-      name: 'any_name',
-      email: 'any_email@email.com',
-      password: 'any_password',
-      cpf: 'any_cpf',
-      rg: 'any_rg',
-      birthdate: 'any_birthdate',
-      phoneNumber: 'any_phone_number',
-    });
+    const account = await sut.add(makeFakeAddAccountModel());
 
     expect(account).toBeTruthy();
     expect(account.id).toBeTruthy();
@@ -45,15 +48,7 @@ describe('Account MongoDB Repository', () => {
 
   test('Should return an account on loadByEmail success', async () => {
     const sut = makeSut();
-    await accountCollection.insertOne({
-      name: 'any_name',
-      email: 'any_email@email.com',
-      password: 'any_password',
-      cpf: 'any_cpf',
-      rg: 'any_rg',
-      birthdate: 'any_birthdate',
-      phoneNumber: 'any_phone_number',
-    });
+    await accountCollection.insertOne(makeFakeAddAccountModel());
     const account = await sut.loadByEmail('any_email@email.com');
 
     expect(account).toBeTruthy();
@@ -76,15 +71,7 @@ describe('Account MongoDB Repository', () => {
 
   test('Should update the account accessToken on updateAccessToken success', async () => {
     const sut = makeSut();
-    const fakeId = await (await accountCollection.insertOne({
-      name: 'any_name',
-      email: 'any_email@email.com',
-      password: 'any_password',
-      cpf: 'any_cpf',
-      rg: 'any_rg',
-      birthdate: 'any_birthdate',
-      phoneNumber: 'any_phone_number',
-    })).insertedId;
+    const fakeId = await (await accountCollection.insertOne(makeFakeAddAccountModel())).insertedId;
 
     let account = await accountCollection.findOne({ _id: fakeId });
 
