@@ -63,10 +63,10 @@ const makeSut = (): SutTypes => {
   const addAccountStub = makeAddAccount();
   const validationStub = makeValidation();
 
-  const sut = new SignUpController({
-    addAccount: addAccountStub,
-    validation: validationStub,
-  });
+  const sut = new SignUpController(
+    addAccountStub,
+    validationStub,
+  );
 
   return {
     sut,

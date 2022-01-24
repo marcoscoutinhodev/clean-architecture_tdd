@@ -13,10 +13,10 @@ export const makeSignUpController = (): Controller => {
   const addAccountRepository = new AccountMongoRepository();
   const dbAddAccount = new DbAddAccount(hasher, addAccountRepository);
 
-  const signUpController = new SignUpController({
-    addAccount: dbAddAccount,
-    validation: makeSignUpValidation(),
-  });
+  const signUpController = new SignUpController(
+    dbAddAccount,
+    makeSignUpValidation(),
+  );
 
   const logMongoRepository = new LogMongoRepository();
 

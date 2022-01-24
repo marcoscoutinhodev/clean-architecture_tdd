@@ -3,13 +3,10 @@ import { DateValidator } from '../../protocols/date-validator';
 import { Validation } from '../../protocols/validation';
 
 export class DateValidation implements Validation {
-  private readonly fieldName: string;
-  private readonly dateValidator: DateValidator;
-
-  constructor(fieldName: string, dateValidator: DateValidator) {
-    this.fieldName = fieldName;
-    this.dateValidator = dateValidator;
-  }
+  constructor(
+    private readonly fieldName: string,
+    private readonly dateValidator: DateValidator,
+  ) {}
 
   validate(input: any): Error | null {
     const isValid = this.dateValidator.isValid(input[this.fieldName]);
