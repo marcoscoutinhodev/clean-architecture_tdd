@@ -1,4 +1,5 @@
 import request from 'supertest';
+import { hash } from 'bcrypt';
 import app from '../config/app';
 import { MongoHelper } from '../../infra/db/mongodb/helpers/mongo-helper';
 
@@ -28,6 +29,30 @@ describe('Login Routes', () => {
           rg: '25.323.607-1',
           birthdate: '1995-11-27',
           phoneNumber: '11-99999-9999',
+        })
+        .expect(200);
+    });
+  });
+
+  describe('POST /login', () => {
+    test('Should return 200 on login', async () => {
+      const password = await hash('test123', 12);
+
+      await (await MongoHelper.getCollection('accounts')).insertOne({
+        name: 'Test',
+        email: 'test@email.com',
+        password,
+        cpf: '868.296.428-76',
+        rg: '25.323.607-1',
+        birthdate: '1995-11-27',
+        phoneNumber: '11-99999-9999',
+      });
+
+      await request(app)
+        .post('/api/login')
+        .send({
+          email: 'test@email.com',
+          password: 'test123',
         })
         .expect(200);
     });
