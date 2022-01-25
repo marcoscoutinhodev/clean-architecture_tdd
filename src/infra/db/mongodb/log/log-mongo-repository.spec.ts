@@ -1,6 +1,7 @@
 import { Collection } from 'mongodb';
 import { MongoHelper } from '../helpers/mongo-helper';
 import { LogMongoRepository } from './log-mongo-repository';
+import { mongoUri } from '../../../../../globalConfig.json';
 
 const makeSut = (): LogMongoRepository => new LogMongoRepository();
 
@@ -8,7 +9,7 @@ describe('Log Mongo Repository', () => {
   let errorCollection: Collection;
 
   beforeAll(async () => {
-    await MongoHelper.connect(MongoHelper.MongoMemoryUriToTests);
+    await MongoHelper.connect(mongoUri);
   });
 
   afterAll(async () => {

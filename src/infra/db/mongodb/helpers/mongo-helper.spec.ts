@@ -1,8 +1,9 @@
 import { MongoHelper as sut } from './mongo-helper';
+import { mongoUri } from '../../../../../globalConfig.json';
 
 describe('Mongo Helper', () => {
   beforeAll(async () => {
-    await sut.connect(sut.MongoMemoryUriToTests);
+    await sut.connect(mongoUri);
   });
 
   afterAll(async () => {

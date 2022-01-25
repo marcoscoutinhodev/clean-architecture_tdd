@@ -2,6 +2,7 @@ import { Collection } from 'mongodb';
 import { AddAccountModel } from '../../../../domain/usecases/add-account';
 import { MongoHelper } from '../helpers/mongo-helper';
 import { AccountMongoRepository } from './account-mongo-repository';
+import { mongoUri } from '../../../../../globalConfig.json';
 
 const makeFakeAddAccountModel = (): AddAccountModel => ({
   name: 'any_name',
@@ -17,7 +18,7 @@ describe('Account MongoDB Repository', () => {
   let accountCollection: Collection;
 
   beforeAll(async () => {
-    await MongoHelper.connect(MongoHelper.MongoMemoryUriToTests);
+    await MongoHelper.connect(mongoUri);
   });
 
   afterAll(async () => {

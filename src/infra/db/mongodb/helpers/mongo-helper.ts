@@ -1,10 +1,9 @@
 import { Collection, MongoClient } from 'mongodb';
-import { mongoUri } from '../../../../../globalConfig.json';
 
 export const MongoHelper = {
   mongoClient: null as unknown as MongoClient | null,
   MongoDbUri: null as unknown as string,
-  MongoMemoryUriToTests: mongoUri,
+  MongoMemoryUriToTests: null as unknown as string,
 
   async connect(uri: string): Promise<void> {
     this.mongoClient = await MongoClient.connect(uri);
