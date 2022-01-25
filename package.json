@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "node ./dist/src/main/server.js",
+    "start": "node ./dist/main/server.js",
     "build": "rimraf dist && tsc",
     "dev": "ts-node src/main/server.ts",
     "test": "jest --passWithNoTests --runInBand --silent --colors",
