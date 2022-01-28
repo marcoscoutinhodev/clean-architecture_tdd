@@ -2,20 +2,21 @@ version: '3'
 services:
   mongo-container:
     container_name: mongo_catdd
-    image: mongo:4
+    image: mongo:5
     restart: always
     volumes:
       - ./data:/data/db
     ports:
       - "27017:27017"
   api:
-    container_name: api_container
-    build: .
-    image: clean-tdd-node-api
+    container_name: api-container
+    image: node:16
+    working_dir: /usr/src/clean-tdd-node-api
     restart: always
-    command: npm start
+    command: bash -c "npm install --only=prod && npm start"
     volumes:
       - ./dist:/usr/src/clean-tdd-node-api/dist
+      - ./package.json:/usr/src/clean-tdd-node-api/package.json
     ports:
       - "4001:4001"
     links:
