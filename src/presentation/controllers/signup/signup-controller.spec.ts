@@ -8,8 +8,10 @@ import {
   Authentication,
   AuthenticationModel,
 } from './signup-controller-protocols';
-import { MissingParamError, ServerError } from '../../errors';
-import { ok, badRequest, serverError } from '../../helpers/http/http-helper';
+import { EmailInUseError, MissingParamError, ServerError } from '../../errors';
+import {
+  ok, badRequest, serverError, forbidden,
+} from '../../helpers/http/http-helper';
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
@@ -120,6 +122,14 @@ describe('SignUp Controller', () => {
     const httpResponse = await sut.handle(makeFakeRequest());
 
     expect(httpResponse).toEqual(serverError(new ServerError()));
+  });
+
+  test('Should return 403 if AddAccount returns null', async () => {
+    const { sut, addAccountStub } = makeSut();
+    jest.spyOn(addAccountStub, 'add').mockImplementationOnce(async () => null);
+    const httpResponse = await sut.handle(makeFakeRequest());
+
+    expect(httpResponse).toEqual(forbidden(new EmailInUseError()));
   });
 
   test('Should return 200 if valid data is provided', async () => {
