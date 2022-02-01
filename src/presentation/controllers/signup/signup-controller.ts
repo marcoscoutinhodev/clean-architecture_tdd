@@ -27,7 +27,7 @@ export class SignUpController implements Controller {
         name, email, password, cpf, rg, birthdate, phoneNumber,
       } = httpRequest.body;
 
-      const account = await this.addAccount.add({
+      await this.addAccount.add({
         name,
         email,
         password,
@@ -37,9 +37,9 @@ export class SignUpController implements Controller {
         phoneNumber,
       });
 
-      await this.authentication.auth({ email, password });
+      const accessToken = await this.authentication.auth({ email, password });
 
-      return ok(account);
+      return ok({ accessToken });
     } catch (error) {
       return serverError(error as Error);
     }
