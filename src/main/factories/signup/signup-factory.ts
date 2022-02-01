@@ -6,6 +6,9 @@ import { DbAddAccount } from '../../../data/usecases/add-account/db-add-account'
 import { makeSignUpValidation } from './signup-validation-factory';
 import { LogControllerDecorator } from '../../decorator/log-controller-decorator';
 import { LogMongoRepository } from '../../../infra/db/mongodb/log/log-mongo-repository';
+import { JwtAdapter } from '../../../infra/criptography/jwt-adapter/jwt-adapter';
+import { DbAuthentication } from '../../../data/usecases/authentication/db-authentication';
+import env from '../../config/env';
 
 export const makeSignUpController = (): Controller => {
   const salt = 12;
@@ -13,9 +16,19 @@ export const makeSignUpController = (): Controller => {
   const addAccountRepository = new AccountMongoRepository();
   const dbAddAccount = new DbAddAccount(hasher, addAccountRepository);
 
+  const jwtAdapter = new JwtAdapter(env.jwtSecret);
+  const accountMongoRepository = new AccountMongoRepository();
+  const dbAuthentication = new DbAuthentication(
+    accountMongoRepository,
+    hasher,
+    jwtAdapter,
+    accountMongoRepository,
+  );
+
   const signUpController = new SignUpController(
     dbAddAccount,
     makeSignUpValidation(),
+    dbAuthentication,
   );
 
   const logMongoRepository = new LogMongoRepository();
