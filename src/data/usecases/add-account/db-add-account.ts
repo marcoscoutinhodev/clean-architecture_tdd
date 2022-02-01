@@ -1,5 +1,10 @@
 import {
-  AddAccount, AddAccountModel, AccountModel, Hasher, AddAccountRepository, LoadAccountByEmailRepository,
+  AddAccount,
+  AddAccountModel,
+  AccountModel,
+  Hasher,
+  AddAccountRepository,
+  LoadAccountByEmailRepository,
 } from './db-add-account-protocols';
 
 export class DbAddAccount implements AddAccount {
@@ -9,8 +14,10 @@ export class DbAddAccount implements AddAccount {
     private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository,
   ) {}
 
-  async add(accountData: AddAccountModel): Promise<AccountModel> {
-    await this.loadAccountByEmailRepository.loadByEmail(accountData.email);
+  async add(accountData: AddAccountModel): Promise<AccountModel | null> {
+    if (await this.loadAccountByEmailRepository.loadByEmail(accountData.email)) {
+      return null;
+    }
 
     const hashedPassword = await this.hasher.hash(accountData.password);
     const accountDataWithPasswordHashed = {
@@ -18,8 +25,8 @@ export class DbAddAccount implements AddAccount {
       password: hashedPassword,
     };
 
-    const account = await this.addAccountRepository.add(accountDataWithPasswordHashed);
+    const newAccount = await this.addAccountRepository.add(accountDataWithPasswordHashed);
 
-    return account;
+    return newAccount;
   }
 }
