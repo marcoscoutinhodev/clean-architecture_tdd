@@ -34,11 +34,10 @@ const makeFakeAccountData = (): AddAccountModel => ({
   phoneNumber: 'valid_phone_number',
 });
 
-
 const makeLoadAccountByEmailRepository = (): LoadAccountByEmailRepository => {
   class LoadAccountByEmailRepositoryStub implements LoadAccountByEmailRepository {
     async loadByEmail(email: string): Promise<AccountModel | null> {
-      return new Promise((resolve) => { resolve(makeFakeAccount()); });
+      return null;
     }
   }
 
@@ -68,13 +67,17 @@ const makeSut = (): SutTypes => {
   const hasherStub = makeHasher();
   const addAccountRepositoryStub = makeAddAccountRepository();
   const loadAccountByEmailRepositoryStub = makeLoadAccountByEmailRepository();
-  const sut = new DbAddAccount(hasherStub, addAccountRepositoryStub, loadAccountByEmailRepositoryStub);
+  const sut = new DbAddAccount(
+    hasherStub,
+    addAccountRepositoryStub,
+    loadAccountByEmailRepositoryStub,
+  );
 
   return {
     sut,
     hasherStub,
     addAccountRepositoryStub,
-    loadAccountByEmailRepositoryStub
+    loadAccountByEmailRepositoryStub,
   };
 };
 
@@ -151,5 +154,14 @@ describe('DbAddAccount Usecase', () => {
     await sut.add(makeFakeAccountData());
 
     expect(loadSpy).toHaveBeenCalledWith('valid_email@email.com');
+  });
+
+  test('Should return null if LoadAccountByEmailRepository returns an account', async () => {
+    const { sut, loadAccountByEmailRepositoryStub } = makeSut();
+    jest.spyOn(loadAccountByEmailRepositoryStub, 'loadByEmail').mockImplementationOnce(async () => makeFakeAccount());
+
+    const account = await sut.add(makeFakeAccountData());
+
+    expect(account).toBeNull();
   });
 });
