@@ -8,10 +8,10 @@ import {
   Authentication,
   AuthenticationModel,
 } from './signup-controller-protocols';
-import { EmailInUseError, MissingParamError, ServerError } from '../../errors';
+import { EmailInUseError, MissingParamError, ServerError } from '../../../errors';
 import {
   ok, badRequest, serverError, forbidden,
-} from '../../helpers/http/http-helper';
+} from '../../../helpers/http/http-helper';
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'valid_id',
