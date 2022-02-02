@@ -3,15 +3,15 @@ import { Controller, HttpRequest, HttpResponse } from '../../presentation/protoc
 
 export const adaptRoute = (controller: Controller) => async (req: Request, res: Response) => {
   const httpRequest: HttpRequest = { body: req.body };
-  const httpResponse: HttpResponse = await controller.handle(httpRequest);
+  const { statusCode, body }: HttpResponse = await controller.handle(httpRequest);
 
-  if (httpResponse.statusCode !== 200) {
+  if (statusCode !== 200 && statusCode !== 204) {
     return res
-      .status(httpResponse.statusCode)
-      .json({ error: httpResponse.body.message });
+      .status(statusCode)
+      .json({ error: body.message });
   }
 
   return res
-    .status(httpResponse.statusCode)
-    .json(httpResponse.body);
+    .status(statusCode)
+    .json(body);
 };
