@@ -35,7 +35,7 @@ const makeSut = (): SutTypes => {
 };
 
 describe('DbAddSurvey Usecase', () => {
-  test('Should call DbAddSurveyRepository with correct values', async () => {
+  test('Should call AddSurveyRepository with correct values', async () => {
     const { sut, addSurveyRepositoryStub } = makeSut();
     const addSpy = jest.spyOn(addSurveyRepositoryStub, 'add');
     const surveyData = makeFakeSurveyData();
@@ -43,5 +43,14 @@ describe('DbAddSurvey Usecase', () => {
     await sut.add(surveyData);
 
     expect(addSpy).toHaveBeenCalledWith(surveyData);
+  });
+
+  test('Should throw if AddSurveyRepository throws', () => {
+    const { sut, addSurveyRepositoryStub } = makeSut();
+    jest.spyOn(addSurveyRepositoryStub, 'add').mockRejectedValueOnce(new Error());
+
+    const promise = sut.add(makeFakeSurveyData());
+
+    expect(promise).rejects.toThrow();
   });
 });
