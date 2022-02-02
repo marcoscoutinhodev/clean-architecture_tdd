@@ -7,14 +7,14 @@ import {
   CpfValidation,
   DateValidation,
   PhoneNumberValidation,
-} from '../../../../presentation/helpers/validators';
+} from '../../../../validation/validators';
 import { Validation } from '../../../../presentation/protocols/validation';
-import { EmailValidator } from '../../../../presentation/protocols/email-validator';
-import { CpfValidator } from '../../../../presentation/protocols/cpf-validator';
-import { DateValidator } from '../../../../presentation/protocols/date-validator';
-import { PhoneNumberValidator } from '../../../../presentation/protocols/phone-number-validator';
+import { EmailValidator } from '../../../../validation/protocols/email-validator';
+import { CpfValidator } from '../../../../validation/protocols/cpf-validator';
+import { DateValidator } from '../../../../validation/protocols/date-validator';
+import { PhoneNumberValidator } from '../../../../validation/protocols/phone-number-validator';
 
-jest.mock('../../../../presentation/helpers/validators/validation-composite');
+jest.mock('../../../../validation/validators/validation-composite');
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {

@@ -6,7 +6,7 @@ import { AccountMongoRepository } from '../../../../infra/db/mongodb/account/acc
 export const makeDbAddAccount = (): AddAccount => {
   const salt = 12;
   const hasher = new BcrypAdapter(salt);
-  const addAccountRepository = new AccountMongoRepository();
+  const accountMongoRepository = new AccountMongoRepository();
 
-  return new DbAddAccount(hasher, addAccountRepository, addAccountRepository);
+  return new DbAddAccount(hasher, accountMongoRepository, accountMongoRepository);
 };

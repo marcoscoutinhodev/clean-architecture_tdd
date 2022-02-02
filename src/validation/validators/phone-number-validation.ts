@@ -1,6 +1,6 @@
-import { Validation } from '../../protocols/validation';
-import { PhoneNumberValidator } from '../../protocols/phone-number-validator';
-import { InvalidParamError } from '../../errors';
+import { Validation } from '../../presentation/protocols';
+import { PhoneNumberValidator } from '../protocols/phone-number-validator';
+import { InvalidParamError } from '../../presentation/errors';
 
 export class PhoneNumberValidation implements Validation {
   constructor(

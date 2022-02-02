@@ -1,5 +1,5 @@
-import { InvalidParamError } from '../../errors';
-import { DateValidator } from '../../protocols/date-validator';
+import { InvalidParamError } from '../../presentation/errors';
+import { DateValidator } from '../protocols/date-validator';
 import { DateValidation } from './date-validation';
 
 const makeDateValidator = (): DateValidator => {

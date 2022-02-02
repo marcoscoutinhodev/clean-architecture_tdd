@@ -1,4 +1,4 @@
-import { PhoneNumberValidator } from '../presentation/protocols/phone-number-validator';
+import { PhoneNumberValidator } from '../../validation/protocols/phone-number-validator';
 
 export class PhoneNumberValidatorAdapter implements PhoneNumberValidator {
   isValid(phoneNumber: string): boolean {

@@ -1,5 +1,5 @@
-import { InvalidParamError } from '../../errors';
-import { CpfValidator } from '../../protocols/cpf-validator';
+import { InvalidParamError } from '../../presentation/errors';
+import { CpfValidator } from '../protocols/cpf-validator';
 import { CpfValidation } from './cpf-validation';
 
 const makeCpfValidator = (): CpfValidator => {
