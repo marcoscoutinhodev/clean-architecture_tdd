@@ -1,19 +1,19 @@
 import { AuthMiddleware } from './auth.middleware';
 import { LoadAccountByToken } from '../../domain/usecases/load-account-by-token';
 import { AccountModel } from '../../domain/models/account';
-import { forbidden } from '../helpers/http/http-helper';
+import { forbidden, ok } from '../helpers/http/http-helper';
 import { AccessDeniedError } from '../errors';
 import { HttpRequest } from '../protocols';
 
 const makeFakeAccount = (): AccountModel => ({
-  id: 'any_id',
-  name: 'any_name',
-  email: 'any_email@email.com',
-  password: 'any_password',
-  cpf: 'any_cpf',
-  rg: 'any_rg',
-  birthdate: 'any_date',
-  phoneNumber: 'any_phone_number',
+  id: 'valid_id',
+  name: 'valid_name',
+  email: 'valid_email@email.com',
+  password: 'valid_password',
+  cpf: 'valid_cpf',
+  rg: 'valid_rg',
+  birthdate: 'valid_date',
+  phoneNumber: 'valid_phone_number',
 });
 
 const makeFakeRequest = (): HttpRequest => ({
@@ -72,5 +72,13 @@ describe('Auth Middleware', () => {
     const httpResponse = await sut.handle(makeFakeRequest());
 
     expect(httpResponse).toEqual(forbidden(new AccessDeniedError()));
+  });
+
+  test('Should return 200 if LoadAccountByToken returns an account', async () => {
+    const { sut } = makeSut();
+
+    const httpResponse = await sut.handle(makeFakeRequest());
+
+    expect(httpResponse).toEqual(ok({ accountId: 'valid_id' }));
   });
 });
