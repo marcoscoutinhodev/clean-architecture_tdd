@@ -32,57 +32,65 @@ describe('Account MongoDB Repository', () => {
 
   const makeSut = (): AccountMongoRepository => new AccountMongoRepository();
 
-  test('Should return an account on add success', async () => {
-    const sut = makeSut();
-    const account = await sut.add(makeFakeAddAccountModel());
+  describe('add()', () => {
+    test('Should return an account on add success', async () => {
+      const sut = makeSut();
+      const account = await sut.add(makeFakeAddAccountModel());
 
-    expect(account).toBeTruthy();
-    expect(account.id).toBeTruthy();
-    expect(account.name).toBe('any_name');
-    expect(account.email).toBe('any_email@email.com');
-    expect(account.password).toBe('any_password');
-    expect(account.cpf).toBe('any_cpf');
-    expect(account.rg).toBe('any_rg');
-    expect(account.birthdate).toBe('any_birthdate');
-    expect(account.phoneNumber).toBe('any_phone_number');
+      expect(account).toBeTruthy();
+      expect(account.id).toBeTruthy();
+      expect(account.name).toBe('any_name');
+      expect(account.email).toBe('any_email@email.com');
+      expect(account.password).toBe('any_password');
+      expect(account.cpf).toBe('any_cpf');
+      expect(account.rg).toBe('any_rg');
+      expect(account.birthdate).toBe('any_birthdate');
+      expect(account.phoneNumber).toBe('any_phone_number');
+    });
   });
 
-  test('Should return an account on loadByEmail success', async () => {
-    const sut = makeSut();
-    await accountCollection.insertOne(makeFakeAddAccountModel());
-    const account = await sut.loadByEmail('any_email@email.com');
+  describe('loadByEmail()', () => {
+    test('Should return an account on loadByEmail success', async () => {
+      const sut = makeSut();
+      await accountCollection.insertOne(makeFakeAddAccountModel());
+      const account = await sut.loadByEmail('any_email@email.com');
 
-    expect(account).toBeTruthy();
-    expect(account!.id).toBeTruthy();
-    expect(account!.name).toBe('any_name');
-    expect(account!.email).toBe('any_email@email.com');
-    expect(account!.password).toBe('any_password');
-    expect(account!.cpf).toBe('any_cpf');
-    expect(account!.rg).toBe('any_rg');
-    expect(account!.birthdate).toBe('any_birthdate');
-    expect(account!.phoneNumber).toBe('any_phone_number');
+      expect(account).toBeTruthy();
+      expect(account!.id).toBeTruthy();
+      expect(account!.name).toBe('any_name');
+      expect(account!.email).toBe('any_email@email.com');
+      expect(account!.password).toBe('any_password');
+      expect(account!.cpf).toBe('any_cpf');
+      expect(account!.rg).toBe('any_rg');
+      expect(account!.birthdate).toBe('any_birthdate');
+      expect(account!.phoneNumber).toBe('any_phone_number');
+    });
+
+    test('Should return null if loadByEmail fails', async () => {
+      const sut = makeSut();
+      const account = await sut.loadByEmail('any_email@email.com');
+
+      expect(account).toBeNull();
+    });
   });
 
-  test('Should return null if loadByEmail fails', async () => {
-    const sut = makeSut();
-    const account = await sut.loadByEmail('any_email@email.com');
+  describe('updateAccessToken()', () => {
+    test('Should update the account accessToken on updateAccessToken success', async () => {
+      const sut = makeSut();
+      const fakeId = await (
+        await accountCollection.insertOne(makeFakeAddAccountModel())
+      ).insertedId;
 
-    expect(account).toBeNull();
-  });
+      let account = await accountCollection.findOne({ _id: fakeId });
 
-  test('Should update the account accessToken on updateAccessToken success', async () => {
-    const sut = makeSut();
-    const fakeId = await (await accountCollection.insertOne(makeFakeAddAccountModel())).insertedId;
+      expect(account?.accessToken).toBeFalsy();
 
-    let account = await accountCollection.findOne({ _id: fakeId });
+      await sut.updateAccessToken(fakeId.toString(), 'any_token');
 
-    expect(account?.accessToken).toBeFalsy();
+      account = await accountCollection.findOne({ _id: fakeId });
 
-    await sut.updateAccessToken(fakeId.toString(), 'any_token');
-
-    account = await accountCollection.findOne({ _id: fakeId });
-
-    expect(account).toBeTruthy();
-    expect(account!.accessToken).toBe('any_token');
+      expect(account).toBeTruthy();
+      expect(account!.accessToken).toBe('any_token');
+    });
   });
 });
