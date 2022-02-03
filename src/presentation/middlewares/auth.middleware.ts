@@ -11,16 +11,14 @@ export class AuthMiddleware implements Controller {
   async handle(httpRequest: HttpRequest): Promise<HttpResponse> {
     const accessToken = httpRequest.headers?.['x-access-token'];
 
-    if (!accessToken) {
-      return forbidden(new AccessDeniedError());
+    if (accessToken) {
+      const account = await this.loadAccountByToken.load(accessToken);
+
+      if (account) {
+        return ok({ accountId: account.id });
+      }
     }
 
-    const account = await this.loadAccountByToken.load(accessToken);
-
-    if (!account) {
-      return forbidden(new AccessDeniedError());
-    }
-
-    return ok(account);
+    return forbidden(new AccessDeniedError());
   }
 }
