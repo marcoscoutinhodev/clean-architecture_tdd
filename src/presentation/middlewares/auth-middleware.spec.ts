@@ -3,6 +3,7 @@ import { LoadAccountByToken } from '../../domain/usecases/load-account-by-token'
 import { AccountModel } from '../../domain/models/account';
 import { forbidden } from '../helpers/http/http-helper';
 import { AccessDeniedError } from '../errors';
+import { HttpRequest } from '../protocols';
 
 const makeFakeAccount = (): AccountModel => ({
   id: 'any_id',
@@ -13,6 +14,12 @@ const makeFakeAccount = (): AccountModel => ({
   rg: 'any_rg',
   birthdate: 'any_date',
   phoneNumber: 'any_phone_number',
+});
+
+const makeFakeRequest = (): HttpRequest => ({
+  headers: {
+    'x-access-token': 'any_token',
+  },
 });
 
 const makeLoadAccountByToken = (): LoadAccountByToken => {
@@ -53,11 +60,7 @@ describe('Auth Middleware', () => {
     const { sut, loadAccountByTokenStub } = makeSut();
     const loadSpy = jest.spyOn(loadAccountByTokenStub, 'load');
 
-    await sut.handle({
-      headers: {
-        'x-access-token': 'any_token',
-      },
-    });
+    await sut.handle(makeFakeRequest());
 
     expect(loadSpy).toHaveBeenCalledWith('any_token');
   });
