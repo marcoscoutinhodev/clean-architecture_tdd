@@ -17,6 +17,10 @@ export class AuthMiddleware implements Controller {
 
     const account = await this.loadAccountByToken.load(accessToken);
 
+    if (!account) {
+      return forbidden(new AccessDeniedError());
+    }
+
     return ok(account);
   }
 }
