@@ -135,5 +135,12 @@ describe('Account MongoDB Repository', () => {
       expect(account!.birthdate).toBe('any_birthdate');
       expect(account!.phoneNumber).toBe('any_phone_number');
     });
+
+    test('Should return null if loadByToken fails', async () => {
+      const sut = makeSut();
+      const account = await sut.loadByToken('any_token');
+
+      expect(account).toBeNull();
+    });
   });
 });
