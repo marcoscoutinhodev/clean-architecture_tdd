@@ -40,7 +40,7 @@ describe('Survey Routes', () => {
     });
 
     test('Should return 204 on add survey with valid accessToken', async () => {
-      const accountId = await (await accountCollection.insertOne({
+      const accountId = (await accountCollection.insertOne({
         name: 'Test',
         email: 'test@email.com',
         password: 'any_password',
