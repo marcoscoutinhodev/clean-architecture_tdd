@@ -93,4 +93,26 @@ describe('Account MongoDB Repository', () => {
       expect(account!.accessToken).toBe('any_token');
     });
   });
+
+  describe('loadByToken()', () => {
+    test('Should return an account on loadByToken without role', async () => {
+      const sut = makeSut();
+      await accountCollection.insertOne({
+        ...makeFakeAddAccountModel(),
+        accessToken: 'any_token',
+      });
+
+      const account = await sut.loadByToken('any_token');
+
+      expect(account).toBeTruthy();
+      expect(account!.id).toBeTruthy();
+      expect(account!.name).toBe('any_name');
+      expect(account!.email).toBe('any_email@email.com');
+      expect(account!.password).toBe('any_password');
+      expect(account!.cpf).toBe('any_cpf');
+      expect(account!.rg).toBe('any_rg');
+      expect(account!.birthdate).toBe('any_birthdate');
+      expect(account!.phoneNumber).toBe('any_phone_number');
+    });
+  });
 });
