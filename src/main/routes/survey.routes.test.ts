@@ -6,10 +6,35 @@ import { MongoHelper } from '../../infra/db/mongodb/helpers/mongo-helper';
 import { mongoUri } from '../../../globalConfig.json';
 import env from '../config/env';
 
-describe('Survey Routes', () => {
-  let accountCollection: Collection;
-  let surveyCollection: Collection;
+let accountCollection: Collection;
+let surveyCollection: Collection;
 
+const makeAccessToken = async (): Promise<string> => {
+  const accountId = (await accountCollection.insertOne({
+    name: 'Test',
+    email: 'test@email.com',
+    password: 'any_password',
+    cpf: '868.296.428-76',
+    rg: '25.323.607-1',
+    birthdate: '1995-11-27',
+    phoneNumber: '11-99999-9999',
+    role: 'admin',
+  })).insertedId;
+
+  const accessToken = sign({ accountId }, env.jwtSecret);
+
+  await accountCollection.updateOne({
+    _id: accountId,
+  }, {
+    $set: {
+      accessToken,
+    },
+  });
+
+  return accessToken;
+};
+
+describe('Survey Routes', () => {
   beforeAll(async () => {
     await MongoHelper.connect(mongoUri);
   });
@@ -42,26 +67,7 @@ describe('Survey Routes', () => {
     });
 
     test('Should return 204 on add survey with valid accessToken', async () => {
-      const accountId = (await accountCollection.insertOne({
-        name: 'Test',
-        email: 'test@email.com',
-        password: 'any_password',
-        cpf: '868.296.428-76',
-        rg: '25.323.607-1',
-        birthdate: '1995-11-27',
-        phoneNumber: '11-99999-9999',
-        role: 'admin',
-      })).insertedId;
-
-      const accessToken = sign({ accountId }, env.jwtSecret);
-
-      await accountCollection.updateOne({
-        _id: accountId,
-      }, {
-        $set: {
-          accessToken,
-        },
-      });
+      const accessToken = await makeAccessToken();
 
       await request(app)
         .post('/api/surveys')
@@ -87,40 +93,14 @@ describe('Survey Routes', () => {
         .expect(403);
     });
 
-    test('Should return 200 on load surveys with valid accessToken', async () => {
-      const accountId = (await accountCollection.insertOne({
-        name: 'Test',
-        email: 'test@email.com',
-        password: 'any_password',
-        cpf: '868.296.428-76',
-        rg: '25.323.607-1',
-        birthdate: '1995-11-27',
-        phoneNumber: '11-99999-9999',
-      })).insertedId;
-
-      await surveyCollection.insertOne({
-        question: 'other_question',
-        answers: [{
-          image: 'other_image.com',
-          answer: 'other_answer',
-        }],
-      });
-
-      const accessToken = sign({ accountId }, env.jwtSecret);
-
-      await accountCollection.updateOne({
-        _id: accountId,
-      }, {
-        $set: {
-          accessToken,
-        },
-      });
+    test('Should return 204 on load surveys with valid accessToken', async () => {
+      const accessToken = await makeAccessToken();
 
       await request(app)
         .get('/api/surveys')
         .set('x-access-token', accessToken)
         .send()
-        .expect(200);
+        .expect(204);
     });
   });
 });
