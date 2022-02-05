@@ -8,6 +8,7 @@ import env from '../config/env';
 
 describe('Survey Routes', () => {
   let accountCollection: Collection;
+  let surveyCollection: Collection;
 
   beforeAll(async () => {
     await MongoHelper.connect(mongoUri);
@@ -18,7 +19,8 @@ describe('Survey Routes', () => {
   });
 
   beforeEach(async () => {
-    await (await MongoHelper.getCollection('surveys')).deleteMany({});
+    surveyCollection = await MongoHelper.getCollection('surveys');
+    await surveyCollection.deleteMany({});
     accountCollection = await MongoHelper.getCollection('accounts');
     await accountCollection.deleteMany({});
   });
@@ -83,6 +85,42 @@ describe('Survey Routes', () => {
         .get('/api/surveys')
         .send()
         .expect(403);
+    });
+
+    test('Should return 200 on load surveys with valid accessToken', async () => {
+      const accountId = (await accountCollection.insertOne({
+        name: 'Test',
+        email: 'test@email.com',
+        password: 'any_password',
+        cpf: '868.296.428-76',
+        rg: '25.323.607-1',
+        birthdate: '1995-11-27',
+        phoneNumber: '11-99999-9999',
+      })).insertedId;
+
+      await surveyCollection.insertOne({
+        question: 'other_question',
+        answers: [{
+          image: 'other_image.com',
+          answer: 'other_answer',
+        }],
+      });
+
+      const accessToken = sign({ accountId }, env.jwtSecret);
+
+      await accountCollection.updateOne({
+        _id: accountId,
+      }, {
+        $set: {
+          accessToken,
+        },
+      });
+
+      await request(app)
+        .get('/api/surveys')
+        .set('x-access-token', accessToken)
+        .send()
+        .expect(200);
     });
   });
 });
