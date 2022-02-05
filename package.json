@@ -16,7 +16,7 @@
     "test:verbose": "jest --passWithNoTests",
     "test:unit": "yarn test --watch --noStackTrace -c jest-unit-config.js",
     "test:integration": "yarn test --watch --noStackTrace -c jest-integration-config.js",
-    "test:coveralls": "yarn teste pre-push && coveralls < coverage/lcov.info",
+    "test:coveralls": "yarn test pre-push && coveralls < coverage/lcov.info",
     "pre-commit": "eslint --fix && yarn test --verbose && git add",
     "pre-push": "yarn test --coverage"
   },

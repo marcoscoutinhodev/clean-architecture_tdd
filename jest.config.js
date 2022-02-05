@@ -1,13 +1,13 @@
 module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
-    '<rootDir>src/**/*.ts',
-    '!<rootDir>src/main/**',
+    './src/**/*.ts',
+    '!./src/main/**',
   ],
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
   preset: '@shelf/jest-mongodb',
-  roots: ['<rootDir>/src'],
+  roots: ['./src'],
   transform: {
     '.+\\.ts$': 'ts-jest',
   },
