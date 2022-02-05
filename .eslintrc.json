@@ -25,7 +25,6 @@
         "@typescript-eslint/naming-convention": "off",
         "max-len": "warn",
         "no-plusplus": "off",
-        "no-underscore-dangle": "off",
-        "eslint-plugin-import": "true"
+        "no-underscore-dangle": "off"
     }
 }
