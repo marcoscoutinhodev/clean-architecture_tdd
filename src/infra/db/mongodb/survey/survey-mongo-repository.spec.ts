@@ -15,6 +15,8 @@ const makeFakeAddSurveyModel = (): AddSurveyModel => ({
   date: new Date(),
 });
 
+const makeSut = (): SurveyMongoRepository => new SurveyMongoRepository();
+
 describe('Survey MongoDB Repository', () => {
   let surveyCollection: Collection;
 
@@ -31,14 +33,14 @@ describe('Survey MongoDB Repository', () => {
     await surveyCollection.deleteMany({});
   });
 
-  const makeSut = (): SurveyMongoRepository => new SurveyMongoRepository();
+  describe('add()', () => {
+    test('Should add a survey success', async () => {
+      const sut = makeSut();
+      await sut.add(makeFakeAddSurveyModel());
 
-  test('Should add a survey success', async () => {
-    const sut = makeSut();
-    await sut.add(makeFakeAddSurveyModel());
+      const survey = await surveyCollection.findOne({ question: 'any_question' });
 
-    const survey = await surveyCollection.findOne({ question: 'any_question' });
-
-    expect(survey).toBeTruthy();
+      expect(survey).toBeTruthy();
+    });
   });
 });
