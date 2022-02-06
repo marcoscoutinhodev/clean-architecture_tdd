@@ -14,7 +14,7 @@ import { DateValidator } from '@/validation/protocols/date-validator';
 import { PhoneNumberValidator } from '@/validation/protocols/phone-number-validator';
 import { Validation } from '@/presentation/protocols/validation';
 
-jest.mock('../../../../../validation/validators/validation-composite');
+jest.mock('@/validation/validators/validation-composite');
 
 const makeEmailValidator = (): EmailValidator => {
   class EmailValidatorStub implements EmailValidator {
