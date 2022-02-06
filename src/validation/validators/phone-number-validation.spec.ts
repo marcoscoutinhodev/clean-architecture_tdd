@@ -12,10 +12,10 @@ const makePhoneNumberValidator = (): PhoneNumberValidator => {
   return new PhoneNumberValidationStub();
 };
 
-interface SutTypes {
+type SutTypes = {
   sut: PhoneNumberValidation,
   phoneNumberValidatorStub: PhoneNumberValidator
-}
+};
 
 const makeSut = (): SutTypes => {
   const phoneNumberValidatorStub = makePhoneNumberValidator();

@@ -12,10 +12,10 @@ const makeDateValidator = (): DateValidator => {
   return new DateValidatorStub();
 };
 
-interface SutTypes {
+type SutTypes = {
   sut: DateValidation
   dateValidatorStub: DateValidator
-}
+};
 
 const makeSut = (): SutTypes => {
   const dateValidatorStub = makeDateValidator();

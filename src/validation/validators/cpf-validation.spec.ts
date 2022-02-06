@@ -12,10 +12,10 @@ const makeCpfValidator = (): CpfValidator => {
   return new CpfValidatorStub();
 };
 
-interface SutTypes {
+type SutTypes = {
   sut: CpfValidation
   cpfValidatorStub: CpfValidator
-}
+};
 
 const makeSut = (): SutTypes => {
   const cpfValidatorStub = makeCpfValidator();

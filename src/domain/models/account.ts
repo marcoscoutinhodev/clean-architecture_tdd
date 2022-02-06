@@ -1,4 +1,4 @@
-export interface AccountModel {
+export type AccountModel = {
   id: string
   name: string
   email: string
@@ -7,4 +7,4 @@ export interface AccountModel {
   rg: string
   birthdate: string
   phoneNumber: string
-}
+};
