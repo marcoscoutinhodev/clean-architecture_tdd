@@ -1,10 +1,6 @@
-laguage: node_js
+language: node_js
 node_js:
   - 16
-services:
-  - docker
-jobs:
-  include:
-      script:
-        - eslint 'src/**'
-        - npm run test:coveralls
+script:
+  - eslint 'src/**'
+  - npm run test:coveralls
