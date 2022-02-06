@@ -15,7 +15,6 @@ const makeAccessToken = async (): Promise<string> => {
     email: 'test@email.com',
     password: 'any_password',
     cpf: '868.296.428-76',
-    rg: '25.323.607-1',
     birthdate: '1995-11-27',
     phoneNumber: '11-99999-9999',
     role: 'admin',

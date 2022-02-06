@@ -27,7 +27,7 @@ export class SignUpController implements Controller {
       }
 
       const {
-        name, email, password, cpf, rg, birthdate, phoneNumber,
+        name, email, password, cpf, birthdate, phoneNumber,
       } = httpRequest.body;
 
       const account = await this.addAccount.add({
@@ -35,7 +35,6 @@ export class SignUpController implements Controller {
         email,
         password,
         cpf,
-        rg,
         birthdate,
         phoneNumber,
       });

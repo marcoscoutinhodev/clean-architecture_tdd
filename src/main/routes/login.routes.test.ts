@@ -27,7 +27,6 @@ describe('Login Routes', () => {
           password: 'test123',
           passwordConfirmation: 'test123',
           cpf: '868.296.428-76',
-          rg: '25.323.607-1',
           birthdate: '1995-11-27',
           phoneNumber: '11-99999-9999',
         })
@@ -44,7 +43,6 @@ describe('Login Routes', () => {
         email: 'test@email.com',
         password,
         cpf: '868.296.428-76',
-        rg: '25.323.607-1',
         birthdate: '1995-11-27',
         phoneNumber: '11-99999-9999',
       });

@@ -4,7 +4,6 @@ export type AccountModel = {
   email: string
   password: string
   cpf: string
-  rg: string
   birthdate: string
   phoneNumber: string
 };

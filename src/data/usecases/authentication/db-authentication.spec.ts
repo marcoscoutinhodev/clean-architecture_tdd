@@ -14,7 +14,6 @@ const makeFakeAccount: AccountModel = {
   email: 'any_email',
   password: 'hashed_password',
   cpf: 'any_cpf',
-  rg: 'any_rg',
   birthdate: 'any_birthdate',
   phoneNumber: 'any_phoneNumber',
 };

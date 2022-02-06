@@ -11,7 +11,6 @@ const makeFakeRequest = (): HttpRequest => ({
     password: 'any_password',
     passwordConfirmation: 'any_password_confirmation',
     cpf: 'any_cpf',
-    rg: 'any_rg',
     birthdate: 'any_birthdate',
     phoneNumber: 'any_phone_number',
   },
@@ -23,7 +22,6 @@ const makeFakeAccount = (): AccountModel => ({
   email: 'valid_email@email.com',
   password: 'valid_password',
   cpf: 'valid_cpf',
-  rg: 'valid_rg',
   birthdate: 'valid_birthdate',
   phoneNumber: 'valid_phone_number',
 });

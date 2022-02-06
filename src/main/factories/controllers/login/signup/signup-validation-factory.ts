@@ -15,7 +15,7 @@ import { Validation } from '@/presentation/protocols/validation';
 export const makeSignUpValidation = (): ValidationComposite => {
   const validations: Validation[] = [];
   const requiredFields = [
-    'name', 'email', 'password', 'passwordConfirmation', 'cpf', 'rg', 'birthdate', 'phoneNumber',
+    'name', 'email', 'password', 'passwordConfirmation', 'cpf', 'birthdate', 'phoneNumber',
   ];
 
   for (const field of requiredFields) {

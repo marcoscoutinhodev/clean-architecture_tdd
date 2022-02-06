@@ -19,7 +19,6 @@ const makeFakeAccount = (): AccountModel => ({
   email: 'valid_email@email.com',
   password: 'hashed_password',
   cpf: 'valid_cpf',
-  rg: 'valid_rg',
   birthdate: 'valid_birthdate',
   phoneNumber: 'valid_phone_number',
 });
@@ -29,7 +28,6 @@ const makeFakeAccountData = (): AddAccountModel => ({
   email: 'valid_email@email.com',
   password: 'valid_password',
   cpf: 'valid_cpf',
-  rg: 'valid_rg',
   birthdate: 'valid_birthdate',
   phoneNumber: 'valid_phone_number',
 });
@@ -120,7 +118,6 @@ describe('DbAddAccount Usecase', () => {
       email: 'valid_email@email.com',
       password: 'hashed_password',
       cpf: 'valid_cpf',
-      rg: 'valid_rg',
       birthdate: 'valid_birthdate',
       phoneNumber: 'valid_phone_number',
     });

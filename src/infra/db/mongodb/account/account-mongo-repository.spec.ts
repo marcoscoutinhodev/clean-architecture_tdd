@@ -9,7 +9,6 @@ const makeFakeAddAccountModel = (): AddAccountModel => ({
   email: 'any_email@email.com',
   password: 'any_password',
   cpf: 'any_cpf',
-  rg: 'any_rg',
   birthdate: 'any_birthdate',
   phoneNumber: 'any_phone_number',
 });
@@ -43,7 +42,6 @@ describe('Account MongoDB Repository', () => {
       expect(account.email).toBe('any_email@email.com');
       expect(account.password).toBe('any_password');
       expect(account.cpf).toBe('any_cpf');
-      expect(account.rg).toBe('any_rg');
       expect(account.birthdate).toBe('any_birthdate');
       expect(account.phoneNumber).toBe('any_phone_number');
     });
@@ -61,7 +59,6 @@ describe('Account MongoDB Repository', () => {
       expect(account!.email).toBe('any_email@email.com');
       expect(account!.password).toBe('any_password');
       expect(account!.cpf).toBe('any_cpf');
-      expect(account!.rg).toBe('any_rg');
       expect(account!.birthdate).toBe('any_birthdate');
       expect(account!.phoneNumber).toBe('any_phone_number');
     });
@@ -110,7 +107,6 @@ describe('Account MongoDB Repository', () => {
       expect(account!.email).toBe('any_email@email.com');
       expect(account!.password).toBe('any_password');
       expect(account!.cpf).toBe('any_cpf');
-      expect(account!.rg).toBe('any_rg');
       expect(account!.birthdate).toBe('any_birthdate');
       expect(account!.phoneNumber).toBe('any_phone_number');
     });
@@ -131,7 +127,6 @@ describe('Account MongoDB Repository', () => {
       expect(account!.email).toBe('any_email@email.com');
       expect(account!.password).toBe('any_password');
       expect(account!.cpf).toBe('any_cpf');
-      expect(account!.rg).toBe('any_rg');
       expect(account!.birthdate).toBe('any_birthdate');
       expect(account!.phoneNumber).toBe('any_phone_number');
     });
@@ -164,7 +159,6 @@ describe('Account MongoDB Repository', () => {
       expect(account!.email).toBe('any_email@email.com');
       expect(account!.password).toBe('any_password');
       expect(account!.cpf).toBe('any_cpf');
-      expect(account!.rg).toBe('any_rg');
       expect(account!.birthdate).toBe('any_birthdate');
       expect(account!.phoneNumber).toBe('any_phone_number');
     });

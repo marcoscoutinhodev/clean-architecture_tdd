@@ -66,7 +66,6 @@ describe('SignUpValidation Factory', () => {
       'password',
       'passwordConfirmation',
       'cpf',
-      'rg',
       'birthdate',
       'phoneNumber',
     ];
