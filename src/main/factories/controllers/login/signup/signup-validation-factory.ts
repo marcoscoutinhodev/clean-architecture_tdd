@@ -6,11 +6,11 @@ import {
   CpfValidation,
   DateValidation,
   PhoneNumberValidation,
-} from '../../../../../validation/validators';
-import { Validation } from '../../../../../presentation/protocols/validation';
+} from '@/validation/validators';
 import {
   CpfValidatorAdapter, DateValidatorAdapter, EmailValidatorAdapter, PhoneNumberValidatorAdapter,
-} from '../../../../../infra/validators';
+} from '@/infra/validators';
+import { Validation } from '@/presentation/protocols/validation';
 
 export const makeSignUpValidation = (): ValidationComposite => {
   const validations: Validation[] = [];

@@ -3,7 +3,7 @@ import {
 } from './login-controller-protocols';
 import {
   ok, badRequest, serverError, unauthorized,
-} from '../../../helpers/http/http-helper';
+} from '@/presentation/helpers/http/http-helper';
 
 export class LoginController implements Controller {
   constructor(

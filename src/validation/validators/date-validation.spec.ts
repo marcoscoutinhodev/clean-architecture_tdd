@@ -1,6 +1,6 @@
-import { InvalidParamError } from '../../presentation/errors';
-import { DateValidator } from '../protocols/date-validator';
 import { DateValidation } from './date-validation';
+import { InvalidParamError } from '@/presentation/errors';
+import { DateValidator } from '@/validation/protocols/date-validator';
 
 const makeDateValidator = (): DateValidator => {
   class DateValidatorStub implements DateValidator {

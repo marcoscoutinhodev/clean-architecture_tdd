@@ -1,7 +1,7 @@
 import { Collection } from 'mongodb';
-import { AddAccountModel } from '../../../../domain/usecases/add-account';
-import { MongoHelper } from '../helpers/mongo-helper';
 import { AccountMongoRepository } from './account-mongo-repository';
+import { AddAccountModel } from '@/domain/usecases/add-account';
+import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper';
 import { mongoUri } from '../../../../../globalConfig.json';
 
 const makeFakeAddAccountModel = (): AddAccountModel => ({

@@ -6,6 +6,9 @@ module.exports = {
   ],
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
+  moduleNameMapper: {
+    '@/(.*)': '<rootDir>/src/$1'
+  },
   preset: '@shelf/jest-mongodb',
   roots: ['<rootDir>/src'],
   transform: {

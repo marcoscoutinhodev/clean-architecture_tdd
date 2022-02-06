@@ -7,12 +7,12 @@ import {
   CpfValidation,
   DateValidation,
   PhoneNumberValidation,
-} from '../../../../../validation/validators';
-import { Validation } from '../../../../../presentation/protocols/validation';
-import { EmailValidator } from '../../../../../validation/protocols/email-validator';
-import { CpfValidator } from '../../../../../validation/protocols/cpf-validator';
-import { DateValidator } from '../../../../../validation/protocols/date-validator';
-import { PhoneNumberValidator } from '../../../../../validation/protocols/phone-number-validator';
+} from '@/validation/validators';
+import { EmailValidator } from '@/validation/protocols/email-validator';
+import { CpfValidator } from '@/validation/protocols/cpf-validator';
+import { DateValidator } from '@/validation/protocols/date-validator';
+import { PhoneNumberValidator } from '@/validation/protocols/phone-number-validator';
+import { Validation } from '@/presentation/protocols/validation';
 
 jest.mock('../../../../../validation/validators/validation-composite');
 

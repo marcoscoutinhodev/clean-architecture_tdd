@@ -1,6 +1,6 @@
 import { PhoneNumberValidation } from './phone-number-validation';
-import { PhoneNumberValidator } from '../protocols/phone-number-validator';
-import { InvalidParamError } from '../../presentation/errors';
+import { PhoneNumberValidator } from '@/validation/protocols/phone-number-validator';
+import { InvalidParamError } from '@/presentation/errors';
 
 const makePhoneNumberValidator = (): PhoneNumberValidator => {
   class PhoneNumberValidationStub implements PhoneNumberValidator {

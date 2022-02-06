@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { hash } from 'bcrypt';
 import app from '../config/app';
-import { MongoHelper } from '../../infra/db/mongodb/helpers/mongo-helper';
+import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper';
 import { mongoUri } from '../../../globalConfig.json';
 
 describe('Login Routes', () => {

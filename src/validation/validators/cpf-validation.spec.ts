@@ -1,6 +1,6 @@
-import { InvalidParamError } from '../../presentation/errors';
-import { CpfValidator } from '../protocols/cpf-validator';
 import { CpfValidation } from './cpf-validation';
+import { InvalidParamError } from '@/presentation/errors';
+import { CpfValidator } from '@/validation/protocols/cpf-validator';
 
 const makeCpfValidator = (): CpfValidator => {
   class CpfValidatorStub implements CpfValidator {

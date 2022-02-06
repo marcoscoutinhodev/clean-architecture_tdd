@@ -1,6 +1,6 @@
-import { InvalidParamError } from '../../presentation/errors';
-import { DateValidator } from '../protocols/date-validator';
-import { Validation } from '../../presentation/protocols';
+import { DateValidator } from '@/validation/protocols/date-validator';
+import { Validation } from '@/presentation/protocols';
+import { InvalidParamError } from '@/presentation/errors';
 
 export class DateValidation implements Validation {
   constructor(

@@ -1,6 +1,6 @@
-import { Validation } from '../../presentation/protocols';
-import { CpfValidator } from '../protocols/cpf-validator';
-import { InvalidParamError } from '../../presentation/errors';
+import { CpfValidator } from '@/validation/protocols/cpf-validator';
+import { Validation } from '@/presentation/protocols';
+import { InvalidParamError } from '@/presentation/errors';
 
 export class CpfValidation implements Validation {
   constructor(
