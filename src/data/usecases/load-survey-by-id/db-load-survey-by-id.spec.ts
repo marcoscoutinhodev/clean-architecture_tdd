@@ -27,16 +27,16 @@ const makeLoadSurveyById = (): LoadSurveyByIdRepository => {
 
 type SutTypes = {
   sut: DbLoadSurveyById,
-  loadSurveyByIdRepositorystub: LoadSurveyByIdRepository,
+  loadSurveyByIdRepositoryStub: LoadSurveyByIdRepository,
 };
 
 const makeSut = (): SutTypes => {
-  const loadSurveyByIdRepositorystub = makeLoadSurveyById();
-  const sut = new DbLoadSurveyById(loadSurveyByIdRepositorystub);
+  const loadSurveyByIdRepositoryStub = makeLoadSurveyById();
+  const sut = new DbLoadSurveyById(loadSurveyByIdRepositoryStub);
 
   return {
     sut,
-    loadSurveyByIdRepositorystub,
+    loadSurveyByIdRepositoryStub,
   };
 };
 
@@ -50,8 +50,8 @@ describe('DbLoadSurveyById UseCase', () => {
   });
 
   test('Should call LoadSurveyByIdRepository', async () => {
-    const { sut, loadSurveyByIdRepositorystub } = makeSut();
-    const loadById = jest.spyOn(loadSurveyByIdRepositorystub, 'loadById');
+    const { sut, loadSurveyByIdRepositoryStub } = makeSut();
+    const loadById = jest.spyOn(loadSurveyByIdRepositoryStub, 'loadById');
 
     await sut.load('any_id');
 
@@ -64,5 +64,14 @@ describe('DbLoadSurveyById UseCase', () => {
     const survey = await sut.load('any_id');
 
     expect(survey).toEqual(makeFakeSurvey());
+  });
+
+  test('Should throw if  LoadSurveyByIdRepository throws', () => {
+    const { sut, loadSurveyByIdRepositoryStub } = makeSut();
+    jest.spyOn(loadSurveyByIdRepositoryStub, 'loadById').mockRejectedValueOnce(new Error());
+
+    const promise = sut.load('any_id');
+
+    expect(promise).rejects.toThrow();
   });
 });
