@@ -59,6 +59,7 @@ describe('Survey MongoDB Repository', () => {
       const surveys = await sut.loadAll();
 
       expect(surveys.length).toBe(2);
+      expect(surveys[0].id).toBeTruthy();
       expect(surveys[0].question).toBe('any_question');
       expect(surveys[1].question).toBe('other_question');
     });
@@ -80,6 +81,7 @@ describe('Survey MongoDB Repository', () => {
       const surveys = await sut.loadById(surveyId.toString());
 
       expect(surveys).toBeTruthy();
+      expect(surveys!.id).toBeTruthy();
     });
   });
 });

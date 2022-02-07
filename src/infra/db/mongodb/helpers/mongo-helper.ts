@@ -29,4 +29,8 @@ export const MongoHelper = {
       ...collectionWithOutId,
     };
   },
+
+  mapCollection(collection: any[]): any[] {
+    return collection.map((c) => MongoHelper.map(c));
+  },
 };
