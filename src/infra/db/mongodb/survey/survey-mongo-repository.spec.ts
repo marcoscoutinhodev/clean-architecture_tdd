@@ -71,4 +71,15 @@ describe('Survey MongoDB Repository', () => {
       expect(surveys.length).toBe(0);
     });
   });
+
+  describe('loadById()', () => {
+    test('Should load survey by id on success', async () => {
+      const surveyId = (await surveyCollection.insertOne(makeFakeAddSurveyModel())).insertedId;
+      const sut = makeSut();
+
+      const surveys = await sut.loadById(surveyId.toString());
+
+      expect(surveys).toBeTruthy();
+    });
+  });
 });
