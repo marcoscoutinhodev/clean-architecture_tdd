@@ -1,6 +1,6 @@
 import { Collection } from 'mongodb';
 import { AccountMongoRepository } from './account-mongo-repository';
-import { AddAccountModel } from '@/domain/usecases/add-account';
+import { AddAccountModel } from '@/domain/usecases/account/add-account';
 import { MongoHelper } from '@/infra/db/mongodb/helpers/mongo-helper';
 import { mongoUri } from '../../../../../globalConfig.json';
 
