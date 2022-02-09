@@ -1,16 +1,7 @@
 import { CpfValidation } from './cpf-validation';
 import { InvalidParamError } from '@/presentation/errors';
 import { CpfValidator } from '@/validation/protocols/cpf-validator';
-
-const makeCpfValidator = (): CpfValidator => {
-  class CpfValidatorStub implements CpfValidator {
-    isValid(cpf: string): boolean {
-      return true;
-    }
-  }
-
-  return new CpfValidatorStub();
-};
+import { mockCpfValidator } from '@/validation/test';
 
 type SutTypes = {
   sut: CpfValidation
@@ -18,7 +9,7 @@ type SutTypes = {
 };
 
 const makeSut = (): SutTypes => {
-  const cpfValidatorStub = makeCpfValidator();
+  const cpfValidatorStub = mockCpfValidator();
   const sut = new CpfValidation('cpf', cpfValidatorStub);
 
   return {

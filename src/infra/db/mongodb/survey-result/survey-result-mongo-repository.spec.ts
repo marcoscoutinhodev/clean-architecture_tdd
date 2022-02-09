@@ -26,7 +26,7 @@ const mockSurveyModel = async (): Promise<SurveyModel> => {
   return MongoHelper.map(survey);
 };
 
-const makeAccount = async (): Promise<AccountModel> => {
+const mockAccount = async (): Promise<AccountModel> => {
   const accountId = (await accountCollection.insertOne({
     name: 'any_name',
     email: 'any_email@email.com',
@@ -64,7 +64,7 @@ describe('Survey Result MongoDB Repository', () => {
   describe('save()', () => {
     test('Should add a survey result if doesnt exist', async () => {
       const survey = await mockSurveyModel();
-      const account = await makeAccount();
+      const account = await mockAccount();
       const sut = makeSut();
 
       const surveyResult = await sut.save({
@@ -81,7 +81,7 @@ describe('Survey Result MongoDB Repository', () => {
 
     test('Should update the survey result if already registered', async () => {
       const survey = await mockSurveyModel();
-      const account = await makeAccount();
+      const account = await mockAccount();
       const surveyResultId = (await surveyResultsCollection.insertOne({
         surveyId: survey.id,
         accountId: account.id,

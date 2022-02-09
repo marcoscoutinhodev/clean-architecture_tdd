@@ -1,16 +1,7 @@
 import { PhoneNumberValidation } from './phone-number-validation';
-import { PhoneNumberValidator } from '@/validation/protocols/phone-number-validator';
 import { InvalidParamError } from '@/presentation/errors';
-
-const makePhoneNumberValidator = (): PhoneNumberValidator => {
-  class PhoneNumberValidationStub implements PhoneNumberValidator {
-    isValid(phoneNumber: string): boolean {
-      return true;
-    }
-  }
-
-  return new PhoneNumberValidationStub();
-};
+import { PhoneNumberValidator } from '@/validation/protocols/phone-number-validator';
+import { mockPhoneNumberValidator } from '@/validation/test';
 
 type SutTypes = {
   sut: PhoneNumberValidation,
@@ -18,7 +9,7 @@ type SutTypes = {
 };
 
 const makeSut = (): SutTypes => {
-  const phoneNumberValidatorStub = makePhoneNumberValidator();
+  const phoneNumberValidatorStub = mockPhoneNumberValidator();
   const sut = new PhoneNumberValidation('phoneNumber', phoneNumberValidatorStub);
 
   return {

@@ -9,7 +9,7 @@ import { mongoUri } from '../../../globalConfig.json';
 let accountCollection: Collection;
 let surveyCollection: Collection;
 
-const makeAccessToken = async (): Promise<string> => {
+const mockAccessToken = async (): Promise<string> => {
   const accountId = (await accountCollection.insertOne({
     name: 'Test',
     email: 'test@email.com',
@@ -66,7 +66,7 @@ describe('Survey Routes', () => {
     });
 
     test('Should return 204 on add survey with valid accessToken', async () => {
-      const accessToken = await makeAccessToken();
+      const accessToken = await mockAccessToken();
 
       await request(app)
         .post('/api/surveys')
@@ -93,7 +93,7 @@ describe('Survey Routes', () => {
     });
 
     test('Should return 204 on load surveys with valid accessToken', async () => {
-      const accessToken = await makeAccessToken();
+      const accessToken = await mockAccessToken();
 
       await request(app)
         .get('/api/surveys')

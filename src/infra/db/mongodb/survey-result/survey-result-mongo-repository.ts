@@ -4,7 +4,7 @@ import { SaveSurveyResultParams } from '@/domain/usecases/survey-result/save-sur
 import { MongoHelper } from '../helpers/mongo-helper';
 
 export class SurveyResultMongoRepository implements SaveSurveyResultRepository {
-  async save(data: SaveSurveyResultParams): Promise<SurveyResultModel | null> {
+  async save(data: SaveSurveyResultParams): Promise<SurveyResultModel> {
     const surveyResultCollection = await MongoHelper.getCollection('surveyResults');
     const survey = await surveyResultCollection.findOneAndUpdate({
       surveyId: data.surveyId,
@@ -19,6 +19,6 @@ export class SurveyResultMongoRepository implements SaveSurveyResultRepository {
       returnDocument: 'after',
     });
 
-    return survey.value ? MongoHelper.map(survey.value) : null;
+    return MongoHelper.map(survey.value);
   }
 }

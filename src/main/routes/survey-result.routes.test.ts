@@ -9,7 +9,7 @@ import env from '../config/env';
 let accountCollection: Collection;
 let surveyCollection: Collection;
 
-const makeAccessToken = async (): Promise<string> => {
+const mockAccessToken = async (): Promise<string> => {
   const accountId = (await accountCollection.insertOne({
     name: 'Test',
     email: 'test@email.com',
@@ -74,7 +74,7 @@ describe('Survey Routes', () => {
 
       await request(app)
         .put(`/api/surveys/${surveyId}/results`)
-        .set('x-access-token', await makeAccessToken())
+        .set('x-access-token', await mockAccessToken())
         .send({
           answer: 'Answer 1',
         })

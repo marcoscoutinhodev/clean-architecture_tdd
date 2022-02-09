@@ -1,16 +1,7 @@
 import { DateValidation } from './date-validation';
 import { InvalidParamError } from '@/presentation/errors';
 import { DateValidator } from '@/validation/protocols/date-validator';
-
-const makeDateValidator = (): DateValidator => {
-  class DateValidatorStub implements DateValidator {
-    isValid(date: string): boolean {
-      return true;
-    }
-  }
-
-  return new DateValidatorStub();
-};
+import { mockDateValidator } from '@/validation/test';
 
 type SutTypes = {
   sut: DateValidation
@@ -18,7 +9,7 @@ type SutTypes = {
 };
 
 const makeSut = (): SutTypes => {
-  const dateValidatorStub = makeDateValidator();
+  const dateValidatorStub = mockDateValidator();
   const sut = new DateValidation('date', dateValidatorStub);
 
   return {
