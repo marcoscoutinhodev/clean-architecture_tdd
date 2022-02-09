@@ -5,10 +5,10 @@ import { makeLogControllerDecorator } from '@/main/factories/decorators/log-cont
 import { makeDbAddSurvey } from '@/main/factories/usecases/survey/add-survey/db-add-survey-factory';
 
 export const makeAddSurveyController = (): Controller => {
-  const loginController = new AddSurveyController(
+  const addSurveyController = new AddSurveyController(
     makeAddSurveyValidation(),
     makeDbAddSurvey(),
   );
 
-  return makeLogControllerDecorator(loginController);
+  return makeLogControllerDecorator(addSurveyController);
 };
