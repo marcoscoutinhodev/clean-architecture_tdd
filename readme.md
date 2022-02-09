@@ -61,3 +61,10 @@ yarn && yarn up
     - GET request to /api/surveys
     - Required x-access-token with any account access token
     - On success returns 200 and all Surveys registered
+- SaveSurveyResult
+    - PUT request to /api/surveys/:surveyId/results
+    - Requires surveyId in url params
+    - x-access-token is required with account access token in request headers
+    - Request body must have: answer
+    - answer is string and must to be valid
+    - On success returns 200 and the survey result saved
