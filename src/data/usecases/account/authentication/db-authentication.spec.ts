@@ -5,7 +5,7 @@ import {
   Encrypter,
   UpdateAccessTokenRepository,
   AccountModel,
-  AuthenticationModel,
+  AuthenticationParams,
 } from './db-authentication-protocols';
 
 const makeFakeAccount: AccountModel = {
@@ -58,7 +58,7 @@ const makeUpdateAccessTokenRepository = (): UpdateAccessTokenRepository => {
   return new UpdateAccessTokenRepositoryStub();
 };
 
-const makeFakeAuthentication = (): AuthenticationModel => ({
+const makeFakeAuthentication = (): AuthenticationParams => ({
   email: 'any_email@email.com',
   password: 'any_password',
 });
