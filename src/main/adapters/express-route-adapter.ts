@@ -2,7 +2,11 @@ import { Request, Response } from 'express';
 import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols';
 
 export const adaptRoute = (controller: Controller) => async (req: Request, res: Response) => {
-  const httpRequest: HttpRequest = { body: req.body };
+  const httpRequest: HttpRequest = {
+    body: req.body,
+    params: req.params,
+    accountId: req.accountId,
+  };
   const { statusCode, body }: HttpResponse = await controller.handle(httpRequest);
 
   if (statusCode !== 200 && statusCode !== 204) {
