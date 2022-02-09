@@ -9,7 +9,7 @@ let surveyCollection: Collection;
 let surveyResultsCollection: Collection;
 let accountCollection: Collection;
 
-const makeSurvey = async (): Promise<SurveyModel> => {
+const mockSurveyModel = async (): Promise<SurveyModel> => {
   const surveyId = (await surveyCollection.insertOne({
     question: 'any_question',
     answers: [{
@@ -63,7 +63,7 @@ describe('Survey Result MongoDB Repository', () => {
 
   describe('save()', () => {
     test('Should add a survey result if doesnt exist', async () => {
-      const survey = await makeSurvey();
+      const survey = await mockSurveyModel();
       const account = await makeAccount();
       const sut = makeSut();
 
@@ -80,7 +80,7 @@ describe('Survey Result MongoDB Repository', () => {
     });
 
     test('Should update the survey result if already registered', async () => {
-      const survey = await makeSurvey();
+      const survey = await mockSurveyModel();
       const account = await makeAccount();
       const surveyResultId = (await surveyResultsCollection.insertOne({
         surveyId: survey.id,

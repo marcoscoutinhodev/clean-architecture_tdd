@@ -23,7 +23,7 @@ const makeFakeRequest = (): HttpRequest => (
   }
 );
 
-const makeFakeSurvey = (): SurveyModel => (
+const mockSurveyModel = (): SurveyModel => (
   {
     id: 'any_id',
     question: 'any_question',
@@ -35,7 +35,7 @@ const makeFakeSurvey = (): SurveyModel => (
   }
 );
 
-const makeFakeSurveyResult = (): SurveyResultModel => (
+const mockSurveyResultModel = (): SurveyResultModel => (
   {
     id: 'valid_id',
     surveyId: 'valid_survey_id',
@@ -48,7 +48,7 @@ const makeFakeSurveyResult = (): SurveyResultModel => (
 const makeLoadSurveyById = (): LoadSurveyById => {
   class LoadSurveyByIdStub implements LoadSurveyById {
     async load(id: string): Promise<SurveyModel | null> {
-      return makeFakeSurvey();
+      return mockSurveyModel();
     }
   }
 
@@ -58,7 +58,7 @@ const makeLoadSurveyById = (): LoadSurveyById => {
 const makeFakeSaveSurveyResult = (): SaveSurveyResult => {
   class SaveSurveyResultStub implements SaveSurveyResult {
     async save(data: SaveSurveyResultParams): Promise<SurveyResultModel | null> {
-      return makeFakeSurveyResult();
+      return mockSurveyResultModel();
     }
   }
 
@@ -160,6 +160,6 @@ describe('SaveSurveyResultController', () => {
 
     const httpResponse = await sut.handle(makeFakeRequest());
 
-    expect(httpResponse).toEqual(ok(makeFakeSurveyResult()));
+    expect(httpResponse).toEqual(ok(mockSurveyResultModel()));
   });
 });

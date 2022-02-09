@@ -3,7 +3,7 @@ import { LoadSurveysController } from './load-surveys-controller';
 import { LoadSurveys, SurveyModel } from './load-surveys-controller-protocols';
 import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper';
 
-const makeFakeSurveys = (): SurveyModel[] => ([
+const mockSurveyModels = (): SurveyModel[] => ([
   {
     id: 'any_id',
     question: 'any_question',
@@ -30,7 +30,7 @@ const makeFakeSurveys = (): SurveyModel[] => ([
 const makeLoadSurveys = (): LoadSurveys => {
   class LoadSurveysStub implements LoadSurveys {
     async load(): Promise<SurveyModel[]> {
-      return makeFakeSurveys();
+      return mockSurveyModels();
     }
   }
 
@@ -75,7 +75,7 @@ describe('LoadSurveys Controller', () => {
 
     const httpResponse = await sut.handle({});
 
-    expect(httpResponse).toEqual(ok(makeFakeSurveys()));
+    expect(httpResponse).toEqual(ok(mockSurveyModels()));
   });
 
   test('Should return 204 if LoadSurveys returns empty', async () => {
