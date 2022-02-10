@@ -7,14 +7,17 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
+    "rootDirs": ["src", "tests"],
     "strict": true,
     "baseUrl": "src",
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["*"],
+      "@/tests/*": ["../tests/*"],
     }
   },
   "include": [
     "src",
+    "tests",
     "globalConfig.json"
   ],
   "exclude": []
