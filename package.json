@@ -4,7 +4,7 @@
   "description": "NodeJs API Course - TypeScript Clean Architecture TDD Docker GraphQL",
   "main": "server.ts",
   "author": "Marcos Vinicius Coutinho",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "private": true,
   "scripts": {
     "start": "node ./dist/main/server.js",
