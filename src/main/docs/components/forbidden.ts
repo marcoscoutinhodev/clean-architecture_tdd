@@ -1,5 +1,5 @@
-export const serverError = {
-  description: 'Server error',
+export const forbidden = {
+  description: 'Access denied',
   content: {
     'application/json': {
       schema: {
