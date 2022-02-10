@@ -15,6 +15,7 @@ The purpose of this API is to practice NodeJS API development using Clean Archit
 - [Docker]
 - [Travis Ci]
 - [Coveralls]
+- [Swagger]
 
 ## Installation
 
