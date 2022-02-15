@@ -1,6 +1,5 @@
 import { Collection } from 'mongodb';
-import { MongoHelper } from '@/infra/db';
-import { SurveyMongoRepository } from '@/infra/db';
+import { MongoHelper, SurveyMongoRepository } from '@/infra/db';
 import { mockAddSurveyParams } from '@/tests/domain/mocks';
 import { mongoUri } from '../../../../../globalConfig.json';
 

@@ -1,6 +1,5 @@
-import { Collection } from 'mongodb';
-import { MongoHelper } from '@/infra/db';
-import { SurveyResultMongoRepository } from '@/infra/db';
+import { Collection, ObjectId } from 'mongodb';
+import { MongoHelper, SurveyResultMongoRepository } from '@/infra/db';
 import { SurveyModel } from '@/domain/models/survey';
 import { AccountModel } from '@/domain/models/account';
 import { mongoUri } from '../../../../../globalConfig.json';
@@ -9,7 +8,7 @@ let surveyCollection: Collection;
 let surveyResultsCollection: Collection;
 let accountCollection: Collection;
 
-const mockSurveyModel = async (): Promise<SurveyModel> => {
+const mockSurvey = async (): Promise<SurveyModel> => {
   const surveyId = (await surveyCollection.insertOne({
     question: 'any_question',
     answers: [{
@@ -63,7 +62,7 @@ describe('Survey Result MongoDB Repository', () => {
 
   describe('save()', () => {
     test('Should add a survey result if doesnt exist', async () => {
-      const survey = await mockSurveyModel();
+      const survey = await mockSurvey();
       const account = await mockAccount();
       const sut = makeSut();
 
@@ -75,19 +74,21 @@ describe('Survey Result MongoDB Repository', () => {
       });
 
       expect(surveyResult).toBeTruthy();
-      expect(surveyResult?.id).toBeTruthy();
-      expect(surveyResult?.answer).toBe(survey.answers[0].answer);
+      expect(surveyResult.surveyId).toEqual(survey.id);
+      expect(surveyResult.answers[0].count).toBe(1);
+      expect(surveyResult.answers[0].percent).toBe(100);
     });
 
     test('Should update the survey result if already registered', async () => {
-      const survey = await mockSurveyModel();
+      const survey = await mockSurvey();
       const account = await mockAccount();
-      const surveyResultId = (await surveyResultsCollection.insertOne({
-        surveyId: survey.id,
+      await surveyResultsCollection.insertOne({
+        surveyId: new ObjectId(survey.id),
         accountId: account.id,
         answer: survey.answers[0].answer,
         date: new Date(),
-      })).insertedId;
+      });
+
       const sut = makeSut();
 
       const surveyResult = await sut.save({
@@ -98,8 +99,10 @@ describe('Survey Result MongoDB Repository', () => {
       });
 
       expect(surveyResult).toBeTruthy();
-      expect(surveyResult!.id).toEqual(surveyResultId);
-      expect(surveyResult!.answer).toBe(survey.answers[1].answer);
+      expect(surveyResult.surveyId).toEqual(survey.id);
+      expect(surveyResult.answers[0].answer).toBe(survey.answers[1].answer);
+      expect(surveyResult.answers[0].count).toBe(1);
+      expect(surveyResult.answers[0].percent).toBe(100);
     });
   });
 });
