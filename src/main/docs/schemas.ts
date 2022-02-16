@@ -3,6 +3,7 @@ import {
   saveSurveyParamsSchema,
   surveysSchema,
   surveyResultSchema,
+  surveyResultAnswerSchema,
   errorSchema,
   surveyAnswerSchema,
   surveySchema,
@@ -21,5 +22,6 @@ export default {
   surveys: surveysSchema,
   surveyAnswer: surveyAnswerSchema,
   surveyResult: surveyResultSchema,
+  surveyResultAnswer: surveyResultAnswerSchema,
   error: errorSchema,
 };
