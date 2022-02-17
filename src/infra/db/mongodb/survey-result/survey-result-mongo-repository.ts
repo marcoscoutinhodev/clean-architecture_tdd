@@ -24,7 +24,7 @@ export class SurveyResultMongoRepository implements
     });
   }
 
-  async loadBySurveyId(surveyId: string): Promise<SurveyResultModel  | null> {
+  async loadBySurveyId(surveyId: string): Promise<SurveyResultModel | null> {
     const surveyResultCollection = await MongoHelper.getCollection('surveyResults');
     const query = new QueryBuilder()
       .match({
@@ -183,6 +183,6 @@ export class SurveyResultMongoRepository implements
       .aggregate<SurveyResultModel>(query)
       .toArray();
 
-    return surveyResult[0];
+    return surveyResult.length ? surveyResult[0] : null;
   }
 }
