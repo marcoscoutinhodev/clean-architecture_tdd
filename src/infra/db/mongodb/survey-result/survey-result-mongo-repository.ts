@@ -8,7 +8,7 @@ import { MongoHelper, QueryBuilder } from '../helpers';
 export class SurveyResultMongoRepository implements
   SaveSurveyResultRepository,
   LoadSurveyResultRepository {
-  async save(data: SaveSurveyResultParams): Promise<SurveyResultModel> {
+  async save(data: SaveSurveyResultParams): Promise<void> {
     const surveyResultCollection = await MongoHelper.getCollection('surveyResults');
     await surveyResultCollection.findOneAndUpdate({
       surveyId: new ObjectId(data.surveyId),
@@ -22,10 +22,6 @@ export class SurveyResultMongoRepository implements
       upsert: true,
       returnDocument: 'after',
     });
-
-    const surveyResultMapped = await this.loadBySurveyId(data.surveyId);
-
-    return surveyResultMapped;
   }
 
   async loadBySurveyId(surveyId: string): Promise<SurveyResultModel> {
