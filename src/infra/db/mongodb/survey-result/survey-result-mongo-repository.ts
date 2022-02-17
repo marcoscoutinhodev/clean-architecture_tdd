@@ -24,7 +24,7 @@ export class SurveyResultMongoRepository implements
     });
   }
 
-  async loadBySurveyId(surveyId: string): Promise<SurveyResultModel> {
+  async loadBySurveyId(surveyId: string): Promise<SurveyResultModel  | null> {
     const surveyResultCollection = await MongoHelper.getCollection('surveyResults');
     const query = new QueryBuilder()
       .match({
