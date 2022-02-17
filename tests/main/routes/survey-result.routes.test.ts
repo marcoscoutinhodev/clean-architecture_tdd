@@ -88,5 +88,24 @@ describe('Survey Routes', () => {
         .get('/api/surveys/any_id/results')
         .expect(403);
     });
+
+    test('Should return 200 on load survey result success ', async () => {
+      const surveyId = (await surveyCollection.insertOne({
+        question: 'Question',
+        answers: [{
+          image: 'link_image.com',
+          answer: 'Answer 1',
+        }, {
+          image: 'link_image.com',
+          answer: 'Answer 2',
+        }],
+        date: new Date(),
+      })).insertedId;
+
+      await request(app)
+        .get(`/api/surveys/${surveyId}/results`)
+        .set('x-access-token', await mockAccessToken())
+        .expect(200);
+    });
   });
 });
