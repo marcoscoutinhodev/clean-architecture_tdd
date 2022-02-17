@@ -41,7 +41,7 @@ yarn && yarn up
     - cpf must be valid
     - birthdate must be valid date
     - phoneNumber must have this format: xx-xxxxx-xxxx
-    - On success returns 200 and the account access token
+    - On success returns 200 and the x-access-token
 - Login
     - POST request to /api/login
     - Request body must have: email, password
@@ -49,10 +49,10 @@ yarn && yarn up
     - email must have a valid email format
     - email must be registered
     - password must match the account password
-    - On success returns 200 and the account access token
+    - On success returns 200 and the x-access-token
 - AddSurvey
     - POST request to /api/surveys
-    - x-access-token is required with account access token in request headers
+    - x-access-token is required
     - Requires an account with admin role
     - Request body must have: question, answers
     - question is string
@@ -60,12 +60,17 @@ yarn && yarn up
     - On success returns 204
 - LoadSurveys
     - GET request to /api/surveys
-    - Required x-access-token with any account access token
+    - x-access-token is required
     - On success returns 200 and all Surveys registered
 - SaveSurveyResult
     - PUT request to /api/surveys/:surveyId/results
     - Requires surveyId in url params
-    - x-access-token is required with account access token in request headers
+    - x-access-token is required
     - Request body must have: answer
     - answer is string and must to be valid
     - On success returns 200 and the survey result saved
+- LoadSurveyResult
+    - GET request to /api/surveys/:surveyId/results
+    - Requires surveyId in url params
+    - x-access-token is required
+    - On success returns 200 and the survey result
